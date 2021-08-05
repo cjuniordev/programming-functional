@@ -84,14 +84,21 @@ def quem_ganhou(char):
     if char == ' ': return None
     print("O jogador 'x' venceu!") if char == 'x' else print("O jogador 'o' venceu!")
 
+def tabuleiro_vazio(p1, p2, p3, p4, p5, p6, p7, p8, p9):
+    if p1 == ' ' and p2 == ' ' and p3 == ' ' and p4 == ' ' and p5 == ' ' and p6 == ' ' and p7 == ' ' and p8 == ' ' and p9 == ' ':
+        print('O jogo nao terminou!')
+
 def verificaJogada(p1, p2, p3, p4, p5, p6, p7, p8, p9):
     """
     Recebe os valores das nove posições do tabuleiro e
     imprime se um jogador ('x' ou 'o') venceu a jogada. 
     (Cada variável representa uma posição no tabuleiro)
     """
+    tabuleiro_vazio(p1, p2, p3, p4, p5, p6, p7, p8, p9)
+
     if p1 == p2 == p3:
         quem_ganhou(p1)
+        
     elif p4 == p5 == p6:
         quem_ganhou(p4)
     elif p7 == p8 == p9:
