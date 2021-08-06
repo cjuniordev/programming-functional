@@ -1,5 +1,6 @@
-# Programção I / Programação Funcional (2021-1)
+# Programação I / Programação Funcional (2021-1)
 # miniEP5 - Jogo da Velha
+## 23, 26
 
 def imprimeTabuleiro(p1, p2, p3, p4, p5, p6, p7, p8, p9):
     """
@@ -104,19 +105,19 @@ def verificaJogada(p1, p2, p3, p4, p5, p6, p7, p8, p9):
     vitoria = False
     if p1 == p2 == p3:
         vitoria = quem_ganhou(p1)
-    if p4 == p5 == p6:
+    elif p4 == p5 == p6:
         vitoria = quem_ganhou(p4)
-    if p7 == p8 == p9:
+    elif p7 == p8 == p9:
         vitoria = quem_ganhou(p7)
-    if p7 == p4 == p1:
+    elif p7 == p4 == p1:
         vitoria = quem_ganhou(p7)
-    if p8 == p5 == p2:
+    elif p8 == p5 == p2:
         vitoria = quem_ganhou(p8)
-    if p9 == p6 == p3:
+    elif p9 == p6 == p3:
         vitoria = quem_ganhou(p9)
-    if p7 == p5 == p3:
+    elif p7 == p5 == p3:
         vitoria = quem_ganhou(p7)
-    if p9 == p5 == p1:
+    elif p9 == p5 == p1:
         vitoria = quem_ganhou(p9)
     if not vitoria:
         if p1 == ' ' or p2 == ' ' or p3 == ' ' or p4 == ' ' or p5 == ' ' or p6 == ' ' or p7 == ' ' or p8 == ' ' or p9 == ' ':
@@ -124,7 +125,6 @@ def verificaJogada(p1, p2, p3, p4, p5, p6, p7, p8, p9):
         else:
             empate(p1, p2, p3, p4, p5, p6, p7, p8, p9)
 
-## NÃO ALTERE A FUNÇÃO 'main' ##
 def main():
     t1 = input()
     t2 = input()
