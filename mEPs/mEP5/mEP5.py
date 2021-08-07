@@ -1,6 +1,6 @@
 # Programação I / Programação Funcional (2021-1)
 # miniEP5 - Jogo da Velha
-## 23, 26
+## 23
 
 def imprimeTabuleiro(p1, p2, p3, p4, p5, p6, p7, p8, p9):
     """
@@ -86,10 +86,6 @@ def quem_ganhou(char):
     print("O jogador 'x' venceu!") if char == 'x' else print("O jogador 'o' venceu!")
     return True
 
-def tabuleiro_vazio(p1, p2, p3, p4, p5, p6, p7, p8, p9):
-    if p1 == ' ' and p2 == ' ' and p3 == ' ' and p4 == ' ' and p5 == ' ' and p6 == ' ' and p7 == ' ' and p8 == ' ' and p9 == ' ':
-        print('O jogo nao terminou!')
-
 def empate(p1, p2, p3, p4, p5, p6, p7, p8, p9):
     if not (p1 == ' ' or p2 == ' ' or p3 == ' ' or p4 == ' ' or p5 == ' ' or p6 == ' ' or p7 == ' ' or p8 == ' ' or p9 == ' '):
         print('Empate!')
@@ -100,7 +96,6 @@ def verificaJogada(p1, p2, p3, p4, p5, p6, p7, p8, p9):
     imprime se um jogador ('x' ou 'o') venceu a jogada. 
     (Cada variável representa uma posição no tabuleiro)
     """
-    tabuleiro_vazio(p1, p2, p3, p4, p5, p6, p7, p8, p9)
 
     vitoria = False
     if p1 == p2 == p3:
