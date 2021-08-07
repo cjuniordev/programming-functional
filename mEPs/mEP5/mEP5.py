@@ -1,6 +1,5 @@
 # Programação I / Programação Funcional (2021-1)
 # miniEP5 - Jogo da Velha
-## 23
 
 def imprimeTabuleiro(p1, p2, p3, p4, p5, p6, p7, p8, p9):
     """
