@@ -96,24 +96,24 @@ def verificaJogada(p1, p2, p3, p4, p5, p6, p7, p8, p9):
     imprime se um jogador ('x' ou 'o') venceu a jogada. 
     (Cada variável representa uma posição no tabuleiro)
     """
-
     vitoria = False
-    if p1 == p2 == p3:
+    if p1 == p2 == p3 and p1 != ' ':
         vitoria = quem_ganhou(p1)
-    elif p4 == p5 == p6:
+    elif p4 == p5 == p6 and p4 != ' ':
         vitoria = quem_ganhou(p4)
-    elif p7 == p8 == p9:
+    elif p7 == p8 == p9 and p7 != ' ':
         vitoria = quem_ganhou(p7)
-    elif p7 == p4 == p1:
+    elif p7 == p4 == p1 and p7 != ' ':
         vitoria = quem_ganhou(p7)
-    elif p8 == p5 == p2:
+    elif p8 == p5 == p2 and p8 != ' ':
         vitoria = quem_ganhou(p8)
-    elif p9 == p6 == p3:
+    elif p9 == p6 == p3 and p9 != ' ':
         vitoria = quem_ganhou(p9)
-    elif p7 == p5 == p3:
+    elif p7 == p5 == p3 and p7 != ' ':
         vitoria = quem_ganhou(p7)
-    elif p9 == p5 == p1:
+    elif p9 == p5 == p1 and p9 != ' ':
         vitoria = quem_ganhou(p9)
+    
     if not vitoria:
         if p1 == ' ' or p2 == ' ' or p3 == ' ' or p4 == ' ' or p5 == ' ' or p6 == ' ' or p7 == ' ' or p8 == ' ' or p9 == ' ':
             print('O jogo nao terminou!')
