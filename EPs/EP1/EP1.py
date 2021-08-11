@@ -24,7 +24,7 @@ from os import system, name
 """
 
 """ colors
-# RST     = '\033[00m
+# RST     = '\033[00m'
 # GRAY    = '\033[30m'
 # RED     = '\033[31m'
 # GREEN   = '\033[32m'
@@ -45,8 +45,21 @@ def clearTerminal():
 	else:  # Kernel Linux e outros
 		system('clear') 
 
-def machine():
+def initialMessage():
+	BLUE    = '\033[34m'
+	print(BLUE)
+	print('###############################################\n')
+	print('------- Bem vindo à máquina de vendas  -------\n')
+	print('Essa máquina vende componentes de computadores\n')
+	print('  ------- Criado por: Carlos Junior -------\n')
+	print('###############################################\n')
+	_ = input('Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
+
+#def machine():
 
 
 def main():
 	clearTerminal()
+	initialMessage()
+
+main()
