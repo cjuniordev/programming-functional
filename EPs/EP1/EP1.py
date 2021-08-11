@@ -51,11 +51,16 @@ def initialMessage():
 	"""
 	VIOLET  = '\033[35m'
 	print(VIOLET)
-	print('###############################################\n')
-	print('------- Bem vindo à máquina de vendas  -------\n')
-	print('Essa máquina vende componentes de computadores\n')
-	print('  ------- Criado por: Carlos Junior -------\n')
-	print('###############################################\n')
+	print('#'*52)
+	print('#  ------- Bem vindo à máquina de vendas  -------  #')
+	print('#' + ' '*50 + '#')
+	print('#  Essa máquina vende componentes de computadores  #')
+	print('#' + ' '*50 + '#')
+	print('#     ------- Criado por Carlos Junior -------     #')
+	print('#'*52 + '\n')
+	
+	GREEN   = '\033[32m'
+	print(GREEN)
 	_ = input('Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
 
 def showItems(gpu, motherboard, monitor, ram, cpu):
@@ -64,7 +69,7 @@ def showItems(gpu, motherboard, monitor, ram, cpu):
 	"""
 	RST     = '\033[00m'
 	BLUE    = '\033[34m'
-	print(BLUE) #Muda a cor da fonte para azul
+	print(BLUE)
 	print('+' + '-'*50 + '+')
 	print('|' + ' '*50 + '|')
 	print('|                MÁQUINA DE VENDAS                 |')
@@ -72,11 +77,11 @@ def showItems(gpu, motherboard, monitor, ram, cpu):
 	print('|' + ' '*50 + '|')
 	print('+' + '-'*50 + '+')
 	print('|' + ' '*50 + '|')
-	print('|  1 - Placa de vídeo....................R$800,00  |')
-	print('|  2 - Placa Mãe.........................R$900,00  |')
-	print('|  3 - Monitor...........................R$500,00  |')
-	print('|  4 - Memória RAM.......................R$300,00  |')
-	print('|  5 - Processador.......................R$900,00  |')
+	if gpu > 0: print('|  1 - Placa de vídeo....................R$800,00  |')
+	if motherboard > 0: print('|  2 - Placa Mãe.........................R$900,00  |')
+	if monitor > 0:print('|  3 - Monitor...........................R$500,00  |')
+	if ram > 0:print('|  4 - Memória RAM.......................R$300,00  |')
+	if cpu > 0:print('|  5 - Processador.......................R$900,00  |')
 	print('|' + ' '*50 + '|')
 	print('+' + '-'*50 + '+')
 	print(RST)
@@ -88,7 +93,7 @@ def machine():
 	"""
 	gpu = 2
 	motherboard = 5
-	monitor = 3
+	monitor = 1
 	ram = 3
 	cpu = 1
 	showItems(gpu, motherboard, monitor, ram, cpu)
