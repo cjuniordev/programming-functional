@@ -62,6 +62,18 @@ def initialMessage():
 	GREEN   = '\033[32m'
 	print(GREEN)
 	_ = input('Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
+	clearTerminal()
+
+def endMessage():
+	"""
+	This function show a end message for user
+	"""
+	clearTerminal()
+	print('──────▄▌▐▀▀▀▀▀▀▀▀▀▀▀▀▌')
+	print('───▄▄██▌█░░░░ ATÉ ░░░▐.')
+	print('▄▄▄▌▐██▌█░░░░ MAIS░░░▐.')
+	print('███████▌█▄▄▄▄▄▄▄▄▄▄▄▄▌')
+	print('▀❍▀▀▀▀▀▀▀❍❍▀▀▀▀▀▀❍❍▀ ')
 
 def showItems(gpu, motherboard, monitor, ram, cpu):
 	"""
@@ -86,6 +98,22 @@ def showItems(gpu, motherboard, monitor, ram, cpu):
 	print('+' + '-'*50 + '+')
 	print(RST)
 
+def chooseOption(n):
+	"""
+	This function get the user option, verify if is valid and return option.
+
+	paremeter: n = number of options
+	return type: INT
+	"""
+	option = int(input('--> Digite sua opção (Digite 0 para cancelar operação!): '))
+	if option == 0:
+		endMessage()
+		exit()
+	elif option < 0 or option > n:
+		print(f'Opção inválida! Digite um valor entre 1 e {n}')
+		option = chooseOption(n)
+
+	return option
 
 def machine():
 	"""
@@ -96,13 +124,15 @@ def machine():
 	monitor = 1
 	ram = 3
 	cpu = 1
+	options = 5
+	
 	showItems(gpu, motherboard, monitor, ram, cpu)
+	chooseOption(options)
 
 
 def main():
 	clearTerminal()
 	initialMessage()
-	clearTerminal()
 	machine()
 
 main()
