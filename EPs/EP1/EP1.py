@@ -75,7 +75,7 @@ def endMessage():
 	print('███████▌█▄▄▄▄▄▄▄▄▄▄▄▄▌')
 	print('▀❍▀▀▀▀▀▀▀❍❍▀▀▀▀▀▀❍❍▀ ')
 
-def showItems(gpu, motherboard, monitor, ram, cpu):
+def showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu):
 	"""
 	This function show which products they are availables to sale with her prices and amount
 	"""
@@ -89,11 +89,11 @@ def showItems(gpu, motherboard, monitor, ram, cpu):
 	print('|' + ' '*50 + '|')
 	print('+' + '-'*50 + '+')
 	print('|' + ' '*50 + '|')
-	if gpu > 0: print('|  1 - Placa de vídeo....................R$800,00  |')
-	if motherboard > 0: print('|  2 - Placa Mãe.........................R$900,00  |')
-	if monitor > 0:print('|  3 - Monitor...........................R$500,00  |')
-	if ram > 0:print('|  4 - Memória RAM.......................R$300,00  |')
-	if cpu > 0:print('|  5 - Processador.......................R$900,00  |')
+	if amount_gpu > 0: print(f'|  1 - Placa de vídeo....................R${price_gpu:.2f}  |')
+	if amount_motherboard > 0: print(f'|  2 - Placa Mãe.........................R${price_motherboard:.2f}  |')
+	if amount_monitor > 0:print(f'|  3 - Monitor...........................R${price_monitor:.2f}  |')
+	if amount_ram > 0:print(f'|  4 - Memória RAM.......................R${price_ram:.2f}  |')
+	if amount_cpu > 0:print(f'|  5 - Processador.......................R${price_cpu:.2f}  |')
 	print('|' + ' '*50 + '|')
 	print('+' + '-'*50 + '+')
 	print(RST)
@@ -102,7 +102,7 @@ def chooseOption(n):
 	"""
 	This function get the user option, verify if is valid and return option.
 
-	paremeter: n = number of options
+	paremeter: n = number of options | type: INT
 	return type: INT
 	"""
 	option = int(input('--> Digite sua opção (Digite 0 para cancelar operação!): '))
@@ -115,19 +115,71 @@ def chooseOption(n):
 
 	return option
 
+def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu):
+	"""
+	Function receive id of a item and realize a sale, accounting a price.
+	"""
+
+	# colors
+	RST     = '\033[00m'
+	BLUE    = '\033[34m'
+	GREEN   = '\033[32m'
+
+	clearTerminal()
+	
+	print(BLUE)
+	print('+------------------------+')
+	print('|    ITEM SELECIONADO    |')
+	print('+------------------------+')
+	if item == 1:
+		print('|  Nome: Placa de vídeo  |')
+		print(f'|     Preço:  {price_gpu:.2f}     |')
+	elif item == 2:
+		print('|    Nome: Placa mãe     |')
+		print(f'|     Preço:  {price_motherboard:.2f}     |')
+	elif item == 3:
+		print('|     Nome:  Monitor     |')
+		print(f'|     Preço:  {price_monitor:.2f}     |')
+	elif item == 4:
+		print('|  Nome: Memória RAM  |')
+		print(f'|     Preço:  {price_ram:.2f}     |')
+	elif item == 5:
+		print('|   Nome:  Processador   |')
+		print(f'|     Preço:  {price_cpu:.2f}     |')
+
+	print('+------------------------+')
+	
+	print(GREEN)
+	confirm = input('\nDeseja continuar a compra? (s/n) ')
+	print(RST)
+	if confirm == 's':
+		return item
+	else:
+		endMessage()
+		exit()
+		
 def machine():
 	"""
 	Function responsible for the operation of the entire machine
 	"""
-	gpu = 2
-	motherboard = 5
-	monitor = 1
-	ram = 3
-	cpu = 1
-	options = 5
+	# amount
+	amount_gpu = 2
+	amount_motherboard = 5
+	amount_monitor = 1
+	amount_ram = 3
+	amount_cpu = 1
+	amount_options = 5
+
+	# prices
+	price_gpu = 800
+	price_motherboard = 900
+	price_monitor = 500
+	price_ram = 300
+	price_cpu = 900
 	
-	showItems(gpu, motherboard, monitor, ram, cpu)
-	chooseOption(options)
+	showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
+	item = chooseOption(amount_options)
+	item = confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
 
 
 def main():
