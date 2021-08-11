@@ -117,7 +117,7 @@ def chooseOption(n):
 
 def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu):
 	"""
-	Function receive id of a item and realize a sale, accounting a price.
+	Function receive id of a item and confirme option
 	"""
 
 	# colors
@@ -132,18 +132,23 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 	print('|    ITEM SELECIONADO    |')
 	print('+------------------------+')
 	if item == 1:
+		item_price = price_gpu
 		print('|  Nome: Placa de vídeo  |')
 		print(f'|     Preço:  {price_gpu:.2f}     |')
 	elif item == 2:
+		item_price = price_motherboard
 		print('|    Nome: Placa mãe     |')
 		print(f'|     Preço:  {price_motherboard:.2f}     |')
 	elif item == 3:
+		item_price = price_monitor
 		print('|     Nome:  Monitor     |')
 		print(f'|     Preço:  {price_monitor:.2f}     |')
 	elif item == 4:
+		item_price = price_ram
 		print('|  Nome: Memória RAM  |')
 		print(f'|     Preço:  {price_ram:.2f}     |')
 	elif item == 5:
+		item_price = price_cpu
 		print('|   Nome:  Processador   |')
 		print(f'|     Preço:  {price_cpu:.2f}     |')
 
@@ -153,11 +158,41 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 	confirm = input('\nDeseja continuar a compra? (s/n) ')
 	print(RST)
 	if confirm == 's':
-		return item
+		return item_price
 	else:
 		endMessage()
 		exit()
 		
+def payment(item_price):
+	""""""
+	RST     = '\033[00m'
+	GREEN   = '\033[32m'
+	RED     = '\033[31m'
+
+	clearTerminal()
+
+	print(GREEN)
+	print(f'É necessaŕio R${item_price:.2f} para comprar este produto.')
+	print(RST)
+	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
+
+	if insertedMoney == 0:
+		endMessage()
+		exit()
+	elif item_price <= insertedMoney:
+		print('Processando pagamento...')
+	else:
+		clearTerminal()
+		print(RED)
+		print('--> Valor inserido não é suficiente para realizar esta compra!')
+		print('Não tente trapecear nosso sistema!')
+		print(RST)
+
+		_ = input('\nPressione ENTER para tentar novamente. ')
+		clearTerminal()
+
+		payment(item_price)
+
 def machine():
 	"""
 	Function responsible for the operation of the entire machine
@@ -179,7 +214,8 @@ def machine():
 	
 	showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
 	item = chooseOption(amount_options)
-	item = confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
+	item_price = confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
+	payment(item_price)
 
 
 def main():
