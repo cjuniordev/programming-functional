@@ -46,8 +46,11 @@ def clearTerminal():
 		system('clear') 
 
 def initialMessage():
-	BLUE    = '\033[34m'
-	print(BLUE)
+	"""
+	This function show a welcome message for user
+	"""
+	VIOLET  = '\033[35m'
+	print(VIOLET)
 	print('###############################################\n')
 	print('------- Bem vindo à máquina de vendas  -------\n')
 	print('Essa máquina vende componentes de computadores\n')
@@ -55,11 +58,46 @@ def initialMessage():
 	print('###############################################\n')
 	_ = input('Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
 
-#def machine():
+def showItems(gpu, motherboard, monitor, ram, cpu):
+	"""
+	This function show which products they are availables to sale with her prices and amount
+	"""
+	RST     = '\033[00m'
+	BLUE    = '\033[34m'
+	print(BLUE) #Muda a cor da fonte para azul
+	print('+' + '-'*50 + '+')
+	print('|' + ' '*50 + '|')
+	print('|                MÁQUINA DE VENDAS                 |')
+	print('|               ESCOLHA UM PRODUTO                 |')
+	print('|' + ' '*50 + '|')
+	print('+' + '-'*50 + '+')
+	print('|' + ' '*50 + '|')
+	print('|  1 - Placa de vídeo....................R$800,00  |')
+	print('|  2 - Placa Mãe.........................R$900,00  |')
+	print('|  3 - Monitor...........................R$500,00  |')
+	print('|  4 - Memória RAM.......................R$300,00  |')
+	print('|  5 - Processador.......................R$900,00  |')
+	print('|' + ' '*50 + '|')
+	print('+' + '-'*50 + '+')
+	print(RST)
+
+
+def machine():
+	"""
+	Function responsible for the operation of the entire machine
+	"""
+	gpu = 2
+	motherboard = 5
+	monitor = 3
+	ram = 3
+	cpu = 1
+	showItems(gpu, motherboard, monitor, ram, cpu)
 
 
 def main():
 	clearTerminal()
 	initialMessage()
+	clearTerminal()
+	machine()
 
 main()
