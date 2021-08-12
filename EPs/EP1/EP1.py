@@ -221,18 +221,18 @@ def calculateNotesCoinsInReal(real):
 	- real1   | type: INT.
 	"""
 	real100 = real // 100
-	rest = real % 100
-	real50 = rest // 50
-	rest = rest % 50
-	real20 = rest // 20
-	rest = rest % 20
-	real10 = rest // 10
-	rest = rest % 10
-	real5 = rest // 5
-	rest = rest % 5
-	real2 = rest // 2
-	rest = rest % 2
-	real1 = rest
+	real = real % 100
+	real50 = real // 50
+	real = real % 50
+	real20 = real // 20
+	real = real % 20
+	real10 = real // 10
+	real = real % 10
+	real5 = real // 5
+	real = real % 5
+	real2 = real // 2
+	real = real % 2
+	real1 = real
 
 	return real100, real50, real20, real10, real5, real2, real1
 
@@ -251,14 +251,14 @@ def calculateCoinsInCents(cents):
 	- cents1  | type: INT.
 	"""
 	cents50 = cents // 50
-	rest = cents % 50
-	cents25 = rest // 25
-	rest = rest % 25
-	cents10 = rest // 10
-	rest = rest % 10
-	cents5 = rest // 5
-	rest = rest % 5
-	cents1 = rest
+	cents = cents % 50
+	cents25 = cents // 25
+	cents = cents % 25
+	cents10 = cents // 10
+	cents = cents % 10
+	cents5 = cents // 5
+	cents = cents % 5
+	cents1 = cents
 
 	return cents50, cents25, cents10, cents5, cents1
 
