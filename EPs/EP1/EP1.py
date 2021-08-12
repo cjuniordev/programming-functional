@@ -113,19 +113,41 @@ def showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount
 	print('|' + ' '*50 + '|')
 	print('+' + '-'*50 + '+', RST)
 
-def chooseOption(n):
+def chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu):
 	"""
 	This function get the user option, verify if is valid and return option.
 
 	paremeter: n = number of options | type: INT
 	return n: INT
 	"""
+
 	option = int(input('--> Digite sua opção (Digite 0 para cancelar operação!): '))
+
 	if option == 0:
 		closeMachine()
-	elif option < 0 or option > n:
-		print(f'Opção inválida! Digite um valor entre 1 e {n}')
-		option = chooseOption(n)
+	elif option == 1:
+		if amount_gpu <= 0:
+			print('Produto Esgotado! Tente outro produto!')
+			option = chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
+	elif option == 2:
+		if amount_motherboard <= 0:
+			print('Produto Esgotado! Tente outro produto!')
+			option = chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
+	elif option == 3:
+		if amount_monitor <= 0:
+			print('Produto Esgotado! Tente outro produto!')
+			option = chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
+	elif option == 4:
+		if amount_ram <= 0:
+			print('Produto Esgotado! Tente outro produto!')
+			option = chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
+	elif option == 5:
+		if amount_cpu <= 0:
+			print('Produto Esgotado! Tente outro produto!')
+			option = chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
+	elif option < 0 or option > 5:
+		print(f'Opção inválida! Digite um valor entre 1 e 5')
+		option = chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
 
 	return option
 
@@ -366,6 +388,7 @@ def payment(item_price):
 	clearTerminal()
 
 	print(GREEN)
+	print(item_price)
 	print(f'É necessaŕio R${item_price:.2f} para comprar este produto.')
 	print(RST)
 	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
@@ -392,15 +415,20 @@ def payment(item_price):
 def completeSale(item_id, amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu):
 	""""""
 	if item_id == 1:
-		amount_gpu -= 1
+		if amount_gpu > 0:
+			amount_gpu -= 1
 	elif item_id == 2:
-		amount_motherboard -= 1
+		if amount_motherboard > 0:
+			amount_motherboard -= 1
 	elif item_id == 3:
-		amount_monitor -= 1
+		if amount_monitor > 0:
+			amount_monitor -= 1
 	elif item_id == 4:
-		amount_ram -= 1
+		if amount_ram > 0:
+			amount_ram -= 1
 	elif item_id == 5:
-		amount_cpu -= 1
+		if amount_cpu > 0:
+			amount_cpu -= 1
 
 	return amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu
 
@@ -421,7 +449,7 @@ def machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_c
 	print(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
 	
 	showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
-	item_id = chooseOption(amount_options)
+	item_id = chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
 	item_price = confirmOption(item_id, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
 	sold = payment(item_price)
 	if sold:
