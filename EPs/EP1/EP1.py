@@ -363,13 +363,21 @@ def change(receive_money, item_price):
 
 	return None.
 	"""
+	RST     = '\033[00m'
+	GREEN   = '\033[32m'
 
+	clearTerminal()
+	print(GREEN)
+	
 	change = receive_money - item_price
 	if change == 0:
-		print('Que legal, o dinheiro inserido é exatamente o preço do produto"')
-		print('Obrigado por me economizar processamento e memória"')
+		print('Que legal, o dinheiro inserido é exatamente o preço do produto!')
+		print('Obrigado por me economizar processamento e memória!', RST)
 	else:
+		print('Aqui está seu troco: \n', RST)
 		calculateMinimumChange(change)
+		_ = input('\n--> Pressione ENTER para pegar troco!')
+
 		
 def payment(item_price):
 	"""
@@ -388,8 +396,7 @@ def payment(item_price):
 	clearTerminal()
 
 	print(GREEN)
-	print(item_price)
-	print(f'É necessaŕio R${item_price:.2f} para comprar este produto.')
+	print(f'É necessário R${item_price:.2f} para comprar este produto.')
 	print(RST)
 	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
 
@@ -397,7 +404,6 @@ def payment(item_price):
 	if insertedMoney == 0:
 		closeMachine()
 	elif item_price <= insertedMoney:
-		print('\nProcessando pagamento...\n')
 		change(insertedMoney, item_price)
 		confirmation = True
 	else:
@@ -413,24 +419,45 @@ def payment(item_price):
 	return confirmation
 
 def completeSale(item_id, amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu):
-	""""""
+	"""
+	This function verify if amount product d'not end and register a sale of more one. --> amount -1
+	parameters:
+	- item_id            | type: INT,
+	- amount_gpu         | type: INT, 
+	- amount_motherboard | type: INT, 
+	- amount_monitor     | type: INT, 
+	- amount_ram         | type: INT, 
+	- amount_cpu         | type: INT.
+
+	return amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu.
+	"""
 	if item_id == 1:
-		if amount_gpu > 0:
-			amount_gpu -= 1
+		amount_gpu -= 1
 	elif item_id == 2:
-		if amount_motherboard > 0:
-			amount_motherboard -= 1
+		amount_motherboard -= 1
 	elif item_id == 3:
-		if amount_monitor > 0:
-			amount_monitor -= 1
+		amount_monitor -= 1
 	elif item_id == 4:
-		if amount_ram > 0:
-			amount_ram -= 1
+		amount_ram -= 1
 	elif item_id == 5:
-		if amount_cpu > 0:
-			amount_cpu -= 1
+		amount_cpu -= 1
 
 	return amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu
+
+def invoice():
+	""""""
+	RST     = '\033[00m'
+	GREEN   = '\033[32m'
+	clearTerminal()
+	print(GREEN)
+	print('+-------------------------+')
+	print('|    COMPRA  REALIZADA    |')
+	print('+-------------------------+')
+	print('|      VOLTE  SEMPRE      |')
+	print('+-------------------------+')
+	print(RST)
+
+	_ = input('Pressione ENTER para continuar!')
 
 def machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, amount_options):
 	"""
@@ -445,8 +472,6 @@ def machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_c
 	price_cpu = 900
 
 	clearTerminal()
-
-	print(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
 	
 	showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
 	item_id = chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
@@ -454,7 +479,7 @@ def machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_c
 	sold = payment(item_price)
 	if sold:
 		amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu = completeSale(item_id, amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
-
+		invoice()
 	machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, amount_options)
 
 def main():
@@ -468,6 +493,7 @@ def main():
 	amount_ram = 3
 	amount_cpu = 1
 	amount_options = 5
+
 	clearTerminal()
 	initialMessage()
 	machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, amount_options)
