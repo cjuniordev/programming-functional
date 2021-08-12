@@ -181,6 +181,7 @@ def payment(item_price):
 		exit()
 	elif item_price <= insertedMoney:
 		print('Processando pagamento...')
+		change(insertedMoney, item_price)
 	else:
 		clearTerminal()
 		print(RED)
@@ -192,6 +193,117 @@ def payment(item_price):
 		clearTerminal()
 
 		payment(item_price)
+
+def calculateNotesCoinsInReal(real):
+	"""
+	This function receives the total change in R$ and calculate amount notes and coins in R$(100, 50, 20, 10, 5, 2 and 1)
+	is necessary.
+	Parameter - real:int
+	return real100:int, real50:int, real20:int, real10:int, real5:int, real2:int, real1:int
+	"""
+	real100 = real // 100
+	rest = real % 100
+	real50 = rest // 50
+	rest = rest % 50
+	real20 = rest // 20
+	rest = rest % 20
+	real10 = rest // 10
+	rest = rest % 10
+	real5 = rest // 5
+	rest = rest % 5
+	real2 = rest // 2
+	rest = rest % 2
+	real1 = rest
+
+	return real100, real50, real20, real10, real5, real2, real1
+
+def calculateCoinsInCents(cents):
+	"""
+	This function receives the total change in cents and calculate amount coins in cents(50, 25, 10, 5 and 1)
+	is necessary.
+
+	Parameter - cents:int.
+
+	return: cents5:int0, cents2:int5, cents1:int0, cents5:int, cents1:int
+	"""
+	cents50 = cents // 50
+	rest = cents % 50
+	cents25 = rest // 25
+	rest = rest % 25
+	cents10 = rest // 10
+	rest = rest % 10
+	cents5 = rest // 5
+	rest = rest % 5
+	cents1 = rest
+
+	return cents50, cents25, cents10, cents5, cents1
+
+def printValue(value, amount):
+	if amount > 0:
+		print(f'R${value:.2f}')
+		printValue(value, amount - 1)
+
+def printChangeReal(real100, real50, real20, real10, real5, real2, real1):
+	""""""
+	if real100 != 0:
+		printValue(100, real100)
+	if real50 != 0:
+		printValue(50, real50)
+	if real20 != 0:
+		printValue(20, real20)
+	if real10 != 0:
+		printValue(10, real10)
+	if real5 != 0:
+		printValue(5, real5)
+	if real2 != 0:
+		printValue(2, real2)
+	if real1 != 0:
+		printValue(1, real1)
+
+def printChangeCents(cents50, cents25, cents10, cents5, cents1):
+	""""""
+	if cents50 != 0:
+		printValue(0.50, cents50)
+	if cents25 != 0:
+		printValue(0.25, cents25)
+	if cents10 != 0:
+		printValue(0.10, cents10)
+	if cents5 != 0:
+		printValue(0.05, cents5)
+	if cents1 != 0:
+		printValue(0.01, cents1)
+
+def calculateMinimumChange(change):
+	"""
+	Notes: 100, 50, 20, 10, 5 and 2 R$
+	Coins: 1R$ or cents: 50, 25, 10, 5 e 1
+	"""
+	real = int(change)
+	cents = int((change - real)*100)
+	
+	real100, real50, real20, real10, real5, real2, real1 = calculateNotesCoinsInReal(real)
+	cents50, cents25, cents10, cents5, cents1 = calculateCoinsInCents(cents)
+
+	printChangeReal(real100, real50, real20, real10, real5, real2, real1)
+	printChangeCents(cents50, cents25, cents10, cents5, cents1)
+
+def change(receive_money, item_price):
+	"""
+	This function generate change of payment
+	"""
+	""" Example of change(R$0,24):
+		R$0,10
+		R$0,10
+		R$0,01
+		R$0,01
+		R$0,01
+		R$0,01 """
+	change = receive_money - item_price
+	if change == 0:
+		print(f'R${change:.2f}')
+	else:
+		calculateMinimumChange(change)
+
 
 def machine():
 	"""
