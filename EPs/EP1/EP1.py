@@ -190,7 +190,9 @@ def payment(item_price):
 
 	parameter: item_price = price of item | type: NUMBER(any).
 
-	return None.
+	return Bool
+	- False = if the purchase is denied,
+	- True = if the purchase is confirmed.
 	"""
 	RST     = '\033[00m'
 	GREEN   = '\033[32m'
@@ -202,11 +204,13 @@ def payment(item_price):
 	print(RST)
 	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
 
+	confirmation = False
 	if insertedMoney == 0:
 		closeMachine()
 	elif item_price <= insertedMoney:
-		print('Processando pagamento...')
+		print('\nProcessando pagamento...\n')
 		change(insertedMoney, item_price)
+		confirmation = True
 	else:
 		clearTerminal()
 		print(RED, '--> Valor inserido não é suficiente para realizar esta compra!')
@@ -216,6 +220,8 @@ def payment(item_price):
 		clearTerminal()
 
 		payment(item_price)
+
+	return confirmation
 
 def calculateNotesCoinsInReal(real):
 	"""
@@ -368,12 +374,13 @@ def change(receive_money, item_price):
 	- receive_money | type: NUMBER(any),
 	- item_price    | type: NUMBER(any).
 
-	return None
+	return None.
 	"""
 
 	change = receive_money - item_price
 	if change == 0:
-		print(f'R${change:.2f}') # remove this line, if change == 0, return thing.
+		print('Que legal, o dinheiro inserido é exatamente o preço do produto"')
+		print('Obrigado por me economizar processamento e memória"')
 	else:
 		calculateMinimumChange(change)
 
