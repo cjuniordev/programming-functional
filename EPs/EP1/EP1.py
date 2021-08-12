@@ -187,46 +187,6 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 		confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
 
 	print(RST)
-		
-def payment(item_price):
-	"""
-	This function is a payment system, manages values, receives payment and calls change function.
-
-	parameter: item_price = price of item | type: NUMBER(any).
-
-	return Bool
-	- False = if the purchase is denied,
-	- True = if the purchase is confirmed.
-	"""
-	RST     = '\033[00m'
-	GREEN   = '\033[32m'
-	RED     = '\033[31m'
-
-	clearTerminal()
-
-	print(GREEN)
-	print(f'É necessaŕio R${item_price:.2f} para comprar este produto.')
-	print(RST)
-	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
-
-	confirmation = False
-	if insertedMoney == 0:
-		closeMachine()
-	elif item_price <= insertedMoney:
-		print('\nProcessando pagamento...\n')
-		change(insertedMoney, item_price)
-		confirmation = True
-	else:
-		clearTerminal()
-		print(RED, '--> Valor inserido não é suficiente para realizar esta compra!')
-		print('Não tente trapecear nosso sistema!', RST)
-
-		_ = input('\nPressione ENTER para tentar novamente. ')
-		clearTerminal()
-
-		payment(item_price)
-
-	return confirmation
 
 def calculateNotesCoinsInReal(real):
 	"""
@@ -388,6 +348,46 @@ def change(receive_money, item_price):
 		print('Obrigado por me economizar processamento e memória"')
 	else:
 		calculateMinimumChange(change)
+		
+def payment(item_price):
+	"""
+	This function is a payment system, manages values, receives payment and calls change function.
+
+	parameter: item_price = price of item | type: NUMBER(any).
+
+	return Bool
+	- False = if the purchase is denied,
+	- True = if the purchase is confirmed.
+	"""
+	RST     = '\033[00m'
+	GREEN   = '\033[32m'
+	RED     = '\033[31m'
+
+	clearTerminal()
+
+	print(GREEN)
+	print(f'É necessaŕio R${item_price:.2f} para comprar este produto.')
+	print(RST)
+	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
+
+	confirmation = False
+	if insertedMoney == 0:
+		closeMachine()
+	elif item_price <= insertedMoney:
+		print('\nProcessando pagamento...\n')
+		change(insertedMoney, item_price)
+		confirmation = True
+	else:
+		clearTerminal()
+		print(RED, '--> Valor inserido não é suficiente para realizar esta compra!')
+		print('Não tente trapecear nosso sistema!', RST)
+
+		_ = input('\nPressione ENTER para tentar novamente. ')
+		clearTerminal()
+
+		payment(item_price)
+
+	return confirmation
 
 def machine():
 	"""
