@@ -39,7 +39,8 @@ print(BLUE)
 def clearTerminal(): 
 	"""
 	This function is responsible for clear terminal based on kernel of SO.
-	return None
+
+	return None.
 	"""
 	if name == 'nt':
 		system('cls') 
@@ -66,10 +67,11 @@ def initialMessage():
 	_ = input('Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
 	clearTerminal()
 
-def endMessage():
+def closeMachine():
 	"""
 	This function show a end message for user.
-	return None
+
+	return None.
 	"""
 	clearTerminal()
 	print('──────▄▌▐▀▀▀▀▀▀▀▀▀▀▀▀▌')
@@ -77,6 +79,8 @@ def endMessage():
 	print('▄▄▄▌▐██▌█░░░░ MAIS░░░▐.')
 	print('███████▌█▄▄▄▄▄▄▄▄▄▄▄▄▌')
 	print('▀❍▀▀▀▀▀▀▀❍❍▀▀▀▀▀▀❍❍▀ ')
+
+	exit()
 
 def showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu):
 	"""
@@ -116,8 +120,7 @@ def chooseOption(n):
 	"""
 	option = int(input('--> Digite sua opção (Digite 0 para cancelar operação!): '))
 	if option == 0:
-		endMessage()
-		exit()
+		closeMachine()
 	elif option < 0 or option > n:
 		print(f'Opção inválida! Digite um valor entre 1 e {n}')
 		option = chooseOption(n)
@@ -172,11 +175,8 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 	print(GREEN)
 	confirm = input('\nDeseja continuar a compra? (s/n) ')
 	print(RST)
-	if confirm == 's':
-		return item_price
-	else:
-		endMessage()
-		exit()
+
+	return item_price if confirm == 's' else closeMachine()
 		
 def payment(item_price):
 	"""
@@ -198,8 +198,7 @@ def payment(item_price):
 	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
 
 	if insertedMoney == 0:
-		endMessage()
-		exit()
+		closeMachine()
 	elif item_price <= insertedMoney:
 		print('Processando pagamento...')
 		change(insertedMoney, item_price)
