@@ -406,7 +406,9 @@ def machine():
 	showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
 	item = chooseOption(amount_options)
 	item_price = confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
-	payment(item_price)
+	sold = payment(item_price)
+	# create function using item and sold variables for decrease product quantity
+	# add recursion for create loop machine
 
 
 def main():
