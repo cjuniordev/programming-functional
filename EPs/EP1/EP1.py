@@ -55,7 +55,9 @@ def initialMessage():
 
 	VIOLET  = '\033[35m'
 	GREEN   = '\033[32m'
-	print(VIOLET, '#'*52)
+
+	print(VIOLET)
+	print('#'*52)
 	print('#  ------- Bem vindo à máquina de vendas  -------  #')
 	print('#' + ' '*50 + '#')
 	print('#  Essa máquina vende componentes de computadores  #')
@@ -95,7 +97,8 @@ def showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount
 	"""
 	RST     = '\033[00m'
 	BLUE    = '\033[34m'
-	print(BLUE, '+' + '-'*50 + '+')
+	print(BLUE)
+	print('+' + '-'*50 + '+')
 	print('|' + ' '*50 + '|')
 	print('|                MÁQUINA DE VENDAS                 |')
 	print('|               ESCOLHA UM PRODUTO                 |')
@@ -144,8 +147,9 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 	GREEN   = '\033[32m'
 
 	clearTerminal()
-	
-	print(BLUE, '+------------------------+')
+
+	print(BLUE)
+	print('+------------------------+')
 	print('|    ITEM SELECIONADO    |')
 	print('+------------------------+')
 	if item == 1:
@@ -200,7 +204,8 @@ def payment(item_price):
 
 	clearTerminal()
 
-	print(GREEN, f'É necessaŕio R${item_price:.2f} para comprar este produto.')
+	print(GREEN)
+	print(f'É necessaŕio R${item_price:.2f} para comprar este produto.')
 	print(RST)
 	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
 
