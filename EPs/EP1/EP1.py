@@ -39,15 +39,17 @@ print(BLUE)
 def clearTerminal(): 
 	"""
 	This function is responsible for clear terminal based on kernel of SO.
+	return None
 	"""
-	if name == 'nt':  # Windows
+	if name == 'nt':
 		system('cls') 
-	else:  # Kernel Linux e outros
+	else:
 		system('clear') 
 
 def initialMessage():
 	"""
-	This function show a welcome message for user
+	This function show a welcome message for user.
+	return None
 	"""
 	VIOLET  = '\033[35m'
 	print(VIOLET)
@@ -66,7 +68,8 @@ def initialMessage():
 
 def endMessage():
 	"""
-	This function show a end message for user
+	This function show a end message for user.
+	return None
 	"""
 	clearTerminal()
 	print('──────▄▌▐▀▀▀▀▀▀▀▀▀▀▀▀▌')
@@ -77,7 +80,13 @@ def endMessage():
 
 def showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu):
 	"""
-	This function show which products they are availables to sale with her prices and amount
+	This function show which products they are availables to sale with her prices and amount.
+
+	paremeters:
+	- amount_{product} = amount of product available | type: INT.
+	- price_{product} = price of product | type: NUMBER(any).
+
+	return None
 	"""
 	RST     = '\033[00m'
 	BLUE    = '\033[34m'
@@ -103,7 +112,7 @@ def chooseOption(n):
 	This function get the user option, verify if is valid and return option.
 
 	paremeter: n = number of options | type: INT
-	return type: INT
+	return n: INT
 	"""
 	option = int(input('--> Digite sua opção (Digite 0 para cancelar operação!): '))
 	if option == 0:
@@ -117,7 +126,13 @@ def chooseOption(n):
 
 def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu):
 	"""
-	Function receive id of a item and confirme option
+	Function receive id of a item and confirme option.
+
+	paremeter:
+	- item = id of item | type: INT.
+	- price_{product} | type: NUMBER(any).
+
+	return item_price: NUMBER(any).
 	"""
 
 	# colors
@@ -164,7 +179,13 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 		exit()
 		
 def payment(item_price):
-	""""""
+	"""
+	This function is a payment system, manages values, receives payment and calls change function.
+
+	parameter: item_price = price of item | type: NUMBER(any).
+
+	return None.
+	"""
 	RST     = '\033[00m'
 	GREEN   = '\033[32m'
 	RED     = '\033[31m'
@@ -196,10 +217,18 @@ def payment(item_price):
 
 def calculateNotesCoinsInReal(real):
 	"""
-	This function receives the total change in R$ and calculate amount notes and coins in R$(100, 50, 20, 10, 5, 2 and 1)
-	is necessary.
-	Parameter - real:int
-	return real100:int, real50:int, real20:int, real10:int, real5:int, real2:int, real1:int
+	This function receives the total change in R$ and calculate amount notes and coins in R$(100, 50, 20, 10, 5, 2 and 1) is necessary.
+
+	parameter: real = total change in real | type: INT.
+
+	return
+	- real100 | type: INT,
+	- real50  | type: INT, 
+	- real20  | type: INT, 
+	- real10  | type: INT,
+	- real5   | type: INT, 
+	- real2   | type: INT, 
+	- real1   | type: INT.
 	"""
 	real100 = real // 100
 	rest = real % 100
@@ -222,9 +251,14 @@ def calculateCoinsInCents(cents):
 	This function receives the total change in cents and calculate amount coins in cents(50, 25, 10, 5 and 1)
 	is necessary.
 
-	Parameter - cents:int.
+	parameter - cents = total change in cents | type: INT.
 
-	return: cents5:int0, cents2:int5, cents1:int0, cents5:int, cents1:int
+	return
+	- cents50 | type: INT, 
+	- cents25 | type: INT,
+	- cents10 | type: INT, 
+	- cents5  | type: INT, 
+	- cents1  | type: INT.
 	"""
 	cents50 = cents // 50
 	rest = cents % 50
@@ -239,12 +273,34 @@ def calculateCoinsInCents(cents):
 	return cents50, cents25, cents10, cents5, cents1
 
 def printValue(value, amount):
+	"""
+	Receive value of note or coin and print 'R${value}' {amount} times.
+
+	parameters
+	- value | type: NUMBER(any),
+	- amount | type: INT.
+
+	return None
+	"""
 	if amount > 0:
 		print(f'R${value:.2f}')
 		printValue(value, amount - 1)
 
 def printChangeReal(real100, real50, real20, real10, real5, real2, real1):
-	""""""
+	"""
+	This function verify which 'reals' is necessary to print.
+
+	parameters
+	- real100 | type: INT, 
+	- real50  | type: INT, 
+	- real20  | type: INT, 
+	- real10  | type: INT, 
+	- real5   | type: INT, 
+	- real2   | type: INT, 
+	- real1   | type: INT.
+
+	return None
+	"""
 	if real100 != 0:
 		printValue(100, real100)
 	if real50 != 0:
@@ -261,7 +317,19 @@ def printChangeReal(real100, real50, real20, real10, real5, real2, real1):
 		printValue(1, real1)
 
 def printChangeCents(cents50, cents25, cents10, cents5, cents1):
-	""""""
+	"""
+	This function verify which 'cents' is necessary to print.
+
+	parameters
+	- cents50 | type: INT, 
+	- cents25 | type: INT, 
+	- cents10 | type: INT, 
+	- cents5  | type: INT, 
+	- cents1  | type: INT.
+
+	return None
+	"""
+
 	if cents50 != 0:
 		printValue(0.50, cents50)
 	if cents25 != 0:
@@ -275,11 +343,14 @@ def printChangeCents(cents50, cents25, cents10, cents5, cents1):
 
 def calculateMinimumChange(change):
 	"""
-	Notes: 100, 50, 20, 10, 5 and 2 R$
-	Coins: 1R$ or cents: 50, 25, 10, 5 e 1
+	This function receive change to give back, separate real and cents, calculate amount notes/coins and print it.
+
+	parameter: change | type: NUMBER(any).
+
+	return None
 	"""
-	real = int(change)
-	cents = int((change - real)*100)
+	real = int(change) # give integer change
+	cents = int((change - real)*100) # give decimal change and transform to integer
 	
 	real100, real50, real20, real10, real5, real2, real1 = calculateNotesCoinsInReal(real)
 	cents50, cents25, cents10, cents5, cents1 = calculateCoinsInCents(cents)
@@ -289,25 +360,25 @@ def calculateMinimumChange(change):
 
 def change(receive_money, item_price):
 	"""
-	This function generate change of payment
+	This function generate change of payment.
+
+	parameters:
+	- receive_money | type: NUMBER(any),
+	- item_price    | type: NUMBER(any).
+
+	return None
 	"""
-	""" Example of change(R$0,24):
-		R$0,10
-		R$0,10
-		R$0,01
-		R$0,01
-		R$0,01
-		R$0,01 """
+
 	change = receive_money - item_price
 	if change == 0:
-		print(f'R${change:.2f}')
+		print(f'R${change:.2f}') # remove this line, if change == 0, return thing.
 	else:
 		calculateMinimumChange(change)
 
 
 def machine():
 	"""
-	Function responsible for the operation of the entire machine
+	Function responsible for the operation of the entire machine.
 	"""
 	# amount
 	amount_gpu = 2
