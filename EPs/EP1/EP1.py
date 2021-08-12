@@ -389,9 +389,49 @@ def payment(item_price):
 
 	return confirmation
 
-def machine():
+def completeSale(item_id, amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu):
+	""""""
+	if item_id == 1:
+		amount_gpu -= 1
+	elif item_id == 2:
+		amount_motherboard -= 1
+	elif item_id == 3:
+		amount_monitor -= 1
+	elif item_id == 4:
+		amount_ram -= 1
+	elif item_id == 5:
+		amount_cpu -= 1
+
+	return amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu
+
+def machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, amount_options):
 	"""
 	Function responsible for the operation of the entire machine.
+	"""
+
+	# prices
+	price_gpu = 800
+	price_motherboard = 900
+	price_monitor = 500
+	price_ram = 300
+	price_cpu = 900
+
+	clearTerminal()
+
+	print(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
+	
+	showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
+	item_id = chooseOption(amount_options)
+	item_price = confirmOption(item_id, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
+	sold = payment(item_price)
+	if sold:
+		amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu = completeSale(item_id, amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
+
+	machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, amount_options)
+
+def main():
+	"""
+	Main function, initialize the program
 	"""
 	# amount
 	amount_gpu = 2
@@ -400,25 +440,8 @@ def machine():
 	amount_ram = 3
 	amount_cpu = 1
 	amount_options = 5
-
-	# prices
-	price_gpu = 800
-	price_motherboard = 900
-	price_monitor = 500
-	price_ram = 300
-	price_cpu = 900
-	
-	showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
-	item = chooseOption(amount_options)
-	item_price = confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
-	sold = payment(item_price)
-	# create function using item and sold variables for decrease product quantity
-	# add recursion for create loop machine
-
-
-def main():
 	clearTerminal()
 	initialMessage()
-	machine()
+	machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, amount_options)
 
 main()
