@@ -63,7 +63,8 @@ def initialMessage():
 	print('#     ------- Criado por Carlos Junior -------     #')
 	print('#'*52 + '\n')
 	
-	_ = input(GREEN, 'Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
+	print(GREEN)
+	_ = input('Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
 	clearTerminal()
 
 def closeMachine():
@@ -139,6 +140,7 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 	# colors
 	RST     = '\033[00m'
 	BLUE    = '\033[34m'
+	RED     = '\033[31m'
 	GREEN   = '\033[32m'
 
 	clearTerminal()
@@ -166,12 +168,21 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 		item_price = price_cpu
 		print('|   Nome:  Processador   |')
 		print(f'|     Preço:  {price_cpu:.2f}     |')
-
 	print('+------------------------+')
 	
-	confirm = input(GREEN, '\nDeseja continuar a compra? (s/n) ', RST)
+	print(GREEN)
+	confirm = input('\nDeseja continuar a compra? (s/n) ')
 
-	return item_price if confirm == 's' else closeMachine()
+	if confirm == 's':
+		return item_price
+	elif confirm == 'n':
+		closeMachine()
+	else:
+		print(RED)
+		_ = input('Valor inválido! Pressione ENTER e tente novamente!')
+		confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
+
+	print(RST)
 		
 def payment(item_price):
 	"""
@@ -187,7 +198,8 @@ def payment(item_price):
 
 	clearTerminal()
 
-	print(GREEN, f'É necessaŕio R${item_price:.2f} para comprar este produto.', RST)
+	print(GREEN, f'É necessaŕio R${item_price:.2f} para comprar este produto.')
+	print(RST)
 	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
 
 	if insertedMoney == 0:
