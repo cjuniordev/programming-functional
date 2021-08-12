@@ -52,9 +52,10 @@ def initialMessage():
 	This function show a welcome message for user.
 	return None
 	"""
+
 	VIOLET  = '\033[35m'
-	print(VIOLET)
-	print('#'*52)
+	GREEN   = '\033[32m'
+	print(VIOLET, '#'*52)
 	print('#  ------- Bem vindo à máquina de vendas  -------  #')
 	print('#' + ' '*50 + '#')
 	print('#  Essa máquina vende componentes de computadores  #')
@@ -62,9 +63,7 @@ def initialMessage():
 	print('#     ------- Criado por Carlos Junior -------     #')
 	print('#'*52 + '\n')
 	
-	GREEN   = '\033[32m'
-	print(GREEN)
-	_ = input('Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
+	_ = input(GREEN, 'Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
 	clearTerminal()
 
 def closeMachine():
@@ -73,6 +72,7 @@ def closeMachine():
 
 	return None.
 	"""
+
 	clearTerminal()
 	print('──────▄▌▐▀▀▀▀▀▀▀▀▀▀▀▀▌')
 	print('───▄▄██▌█░░░░ ATÉ ░░░▐.')
@@ -94,8 +94,7 @@ def showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount
 	"""
 	RST     = '\033[00m'
 	BLUE    = '\033[34m'
-	print(BLUE)
-	print('+' + '-'*50 + '+')
+	print(BLUE, '+' + '-'*50 + '+')
 	print('|' + ' '*50 + '|')
 	print('|                MÁQUINA DE VENDAS                 |')
 	print('|               ESCOLHA UM PRODUTO                 |')
@@ -108,8 +107,7 @@ def showItems(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount
 	if amount_ram > 0:print(f'|  4 - Memória RAM.......................R${price_ram:.2f}  |')
 	if amount_cpu > 0:print(f'|  5 - Processador.......................R${price_cpu:.2f}  |')
 	print('|' + ' '*50 + '|')
-	print('+' + '-'*50 + '+')
-	print(RST)
+	print('+' + '-'*50 + '+', RST)
 
 def chooseOption(n):
 	"""
@@ -145,8 +143,7 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 
 	clearTerminal()
 	
-	print(BLUE)
-	print('+------------------------+')
+	print(BLUE, '+------------------------+')
 	print('|    ITEM SELECIONADO    |')
 	print('+------------------------+')
 	if item == 1:
@@ -172,9 +169,7 @@ def confirmOption(item, price_gpu, price_motherboard, price_monitor, price_ram, 
 
 	print('+------------------------+')
 	
-	print(GREEN)
-	confirm = input('\nDeseja continuar a compra? (s/n) ')
-	print(RST)
+	confirm = input(GREEN, '\nDeseja continuar a compra? (s/n) ', RST)
 
 	return item_price if confirm == 's' else closeMachine()
 		
@@ -192,9 +187,7 @@ def payment(item_price):
 
 	clearTerminal()
 
-	print(GREEN)
-	print(f'É necessaŕio R${item_price:.2f} para comprar este produto.')
-	print(RST)
+	print(GREEN, f'É necessaŕio R${item_price:.2f} para comprar este produto.', RST)
 	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
 
 	if insertedMoney == 0:
@@ -204,10 +197,8 @@ def payment(item_price):
 		change(insertedMoney, item_price)
 	else:
 		clearTerminal()
-		print(RED)
-		print('--> Valor inserido não é suficiente para realizar esta compra!')
-		print('Não tente trapecear nosso sistema!')
-		print(RST)
+		print(RED, '--> Valor inserido não é suficiente para realizar esta compra!')
+		print('Não tente trapecear nosso sistema!', RST)
 
 		_ = input('\nPressione ENTER para tentar novamente. ')
 		clearTerminal()
@@ -373,7 +364,6 @@ def change(receive_money, item_price):
 		print(f'R${change:.2f}') # remove this line, if change == 0, return thing.
 	else:
 		calculateMinimumChange(change)
-
 
 def machine():
 	"""
