@@ -459,6 +459,22 @@ def invoice():
 
 	_ = input('Pressione ENTER para continuar!')
 
+def wantContinue():
+	RST     = '\033[00m'
+	CYAN    = '\033[36m'
+
+	clearTerminal()
+	print(CYAN)
+	option = input('--> Deseja continuar comprando? (s/n) ')
+	print(RST)
+	if option == 's':
+		return True
+	elif option == 'n':
+		return False
+	else:
+		print('Valor Inválido, tente novamente!')
+		return wantContinue()
+
 def machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, amount_options):
 	"""
 	Function responsible for the operation of the entire machine.
@@ -480,7 +496,12 @@ def machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_c
 	if sold:
 		amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu = completeSale(item_id, amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
 		invoice()
-	machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, amount_options)
+		want_continue = wantContinue()
+
+	if want_continue:
+		machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu, amount_options)
+	else:
+		closeMachine()
 
 def main():
 	"""
