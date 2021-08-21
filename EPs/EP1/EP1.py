@@ -401,9 +401,7 @@ def payment(item_price):
 	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
 
 	confirmation = False
-	if insertedMoney == 0:
-		closeMachine()
-	elif item_price <= insertedMoney:
+	if item_price <= insertedMoney:
 		change(insertedMoney, item_price)
 		confirmation = True
 	else:
@@ -414,7 +412,7 @@ def payment(item_price):
 		_ = input('\nPressione ENTER para tentar novamente. ')
 		clearTerminal()
 
-		payment(item_price)
+		confirmation = payment(item_price)
 
 	return confirmation
 
@@ -504,6 +502,8 @@ def machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_c
 	item_id = chooseOption(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
 	item_price = confirmOption(item_id, price_gpu, price_motherboard, price_monitor, price_ram, price_cpu)
 	sold = payment(item_price)
+
+	want_continue = False
 	if sold:
 		amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu = completeSale(item_id, amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu)
 		invoice()
