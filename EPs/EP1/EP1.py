@@ -66,7 +66,7 @@ def initialMessage():
 	print('#'*52 + '\n')
 	
 	print(GREEN)
-	_ = input('Caso tenha interesse em continuar utilizando a máquina, pressione ENTER.')
+	_ = input('Pressione ENTER para prosseguir!')
 	clearTerminal()
 
 def closeMachine():
