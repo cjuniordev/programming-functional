@@ -345,7 +345,7 @@ def calculateMinimumChange(change):
 	return None
 	"""
 	real = int(change) # give integer change
-	cents = int((change - real)*100) # give decimal change and transform to integer
+	cents = int(round((change - real)*100)) # give decimal change and transform to integer
 	
 	real100, real50, real20, real10, real5, real2, real1 = calculateNotesCoinsInReal(real)
 	cents50, cents25, cents10, cents5, cents1 = calculateCoinsInCents(cents)
@@ -401,7 +401,9 @@ def payment(item_price):
 	insertedMoney = float(input('--> Insira aqui o valor do seu dinheiro: (Digite 0 para cancelar compra) '))
 
 	confirmation = False
-	if item_price <= insertedMoney:
+	if insertedMoney == 0:
+		closeMachine()
+	elif item_price <= insertedMoney:
 		change(insertedMoney, item_price)
 		confirmation = True
 	else:
