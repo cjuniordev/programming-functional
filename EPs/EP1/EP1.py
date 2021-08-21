@@ -445,7 +445,12 @@ def completeSale(item_id, amount_gpu, amount_motherboard, amount_monitor, amount
 	return amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_cpu
 
 def invoice():
-	""""""
+	"""
+	Invoice of purchase.
+	parameters: None.
+
+	return None.
+	"""
 	RST     = '\033[00m'
 	GREEN   = '\033[32m'
 	clearTerminal()
@@ -460,6 +465,12 @@ def invoice():
 	_ = input('Pressione ENTER para continuar!')
 
 def wantContinue():
+	"""
+	Function responsible to ask user if he wants continue.
+	parameters: None.
+
+	return Bool.
+	"""
 	RST     = '\033[00m'
 	CYAN    = '\033[36m'
 
@@ -480,7 +491,7 @@ def machine(amount_gpu, amount_motherboard, amount_monitor, amount_ram, amount_c
 	Function responsible for the operation of the entire machine.
 	"""
 
-	# prices
+	# define prices of products
 	price_gpu = 800
 	price_motherboard = 900
 	price_monitor = 500
@@ -507,12 +518,13 @@ def main():
 	"""
 	Main function, initialize the program
 	"""
-	# amount
-	amount_gpu = 2
+
+	# define amount of products
+	amount_gpu = 5
 	amount_motherboard = 5
-	amount_monitor = 1
-	amount_ram = 3
-	amount_cpu = 1
+	amount_monitor = 5
+	amount_ram = 5
+	amount_cpu = 5
 	amount_options = 5
 
 	clearTerminal()
