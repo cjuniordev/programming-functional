@@ -1,11 +1,3 @@
-# receber o tipo de obj a ser desenhado (R, P, TE, TRE, TRD)
-# receber tamanhos(altura para triangulas, HxW para outros)
-# receber char ASCII
-
-# se o tipo de obj ano existir, exibir: 'Objeto invalido'
-# se as medidas nao forem maior que zero, exibir: 'Medida invalida'
-# no caso dos dois erros, exibir a primeira mensagem
-
 def quantasDimensoes(tipo):
     if tipo == 'R' or tipo == 'P':
         return 2
@@ -14,7 +6,7 @@ def quantasDimensoes(tipo):
     else:
         return 0
 
-def verificaDimensoes(largura, altura):
+def verificaDimensoes(altura, largura=1):
     if altura > 0 and largura > 0:
         return True
     else:
@@ -39,12 +31,6 @@ def desenhaParalelograma(largura, altura, ascii, i=0):
     elif i < altura:
         print(f'{" "*i}{ascii}{" "*(largura - 2)}{ascii}')
         desenhaParalelograma(largura, altura, ascii, i+1)
-
-def desenhaDuasDimensoes(tipo, largura, altura, ascii):
-    if tipo == 'R':
-        desenhaRetangulo(largura, altura, ascii)
-    else:
-        desenhaParalelograma(largura, altura, ascii)
 
 def desenhaTrianguloEquilatero(altura, ascii, i=1, gap=0):
     if i == altura:
@@ -87,6 +73,12 @@ def desenhaTrianguloRetanguloDireito(altura, ascii, i=1, gap=0):
         print(" "*(altura-i) + ascii + " "*gap + ascii)
         desenhaTrianguloRetanguloDireito(altura, ascii, i+1, gap+1)
 
+def desenhaDuasDimensoes(tipo, largura, altura, ascii):
+    if tipo == 'R':
+        desenhaRetangulo(largura, altura, ascii)
+    else:
+        desenhaParalelograma(largura, altura, ascii)
+
 def desenhaUmaDimensao(tipo, altura, ascii):
     if tipo == 'TE':
         desenhaTrianguloEquilatero(altura, ascii)
@@ -94,27 +86,25 @@ def desenhaUmaDimensao(tipo, altura, ascii):
         desenhaTrianguloRetanguloEsquerdo(altura, ascii)
     elif tipo == 'TRD':
         desenhaTrianguloRetanguloDireito(altura, ascii)
-
+    
 def main():
     tipo = input()
-    if quantasDimensoes(tipo) == 2:
+    if tipo == 'R' or tipo == 'P':
         largura = int(input())
         altura = int(input())
         ascii = input()
-        if not verificaDimensoes(largura, altura):
-            print('Medida invalida')
-        else:
+        if verificaDimensoes(altura, largura):
             desenhaDuasDimensoes(tipo, largura, altura, ascii)
-
-    elif quantasDimensoes(tipo) == 1:
-        largura = 1
+        else:
+            print('Medida invalida.')
+    elif tipo == 'TE' or tipo == 'TRE' or tipo == 'TRD':
         altura = int(input())
         ascii = input()
-        if not verificaDimensoes(largura, altura):
-            print('Medida invalida')
-        else:
+        if verificaDimensoes(altura):
             desenhaUmaDimensao(tipo, altura, ascii)
+        else:
+            print('Medida invalida.')
     else:
-        print('Objeto invalido')
+        print('Objeto invalido.')
 
 main()
