@@ -1,59 +1,71 @@
-def quantasDimensoes(tipo):
-    if tipo == 'R' or tipo == 'P':
-        return 2
-    elif tipo == 'TE' or tipo == 'TRE' or tipo == 'TRD':
-        return 1
-    else:
-        return 0
-
 def verificaDimensoes(altura, largura=1):
+    """
+    Essa função verifica se as dimensões são válidas.
+    retorna True em caso de válido ou False em caso de inválido
+    """
     if altura > 0 and largura > 0:
         return True
     else:
         return False
 
 def desenhaRetangulo(largura, altura, ascii, i=0):
+    """
+    Esta função desenha um retrangulo de dimensão {largura}x{altura} com os caracteres {ascii}
+    sem retorno
+    """
     if i == 0:
-        print(f'{ascii*largura}')
+        print(ascii*largura)
         desenhaRetangulo(largura, altura, ascii, i+1)
     elif i == altura-1:
-        print(f'{ascii*largura}')
+        print(ascii*largura)
     elif i < altura:
-        print(f'{ascii}{" "*(largura - 2)}{ascii}')
+        print(ascii + " "*(largura - 2) + ascii)
         desenhaRetangulo(largura, altura, ascii, i+1)
 
 def desenhaParalelograma(largura, altura, ascii, i=0):
+    """
+    Esta função desenha um paralelograma de dimensão {largura}x{altura} com os caracteres {ascii}
+    sem retorno
+    """
     if i == 0:
-        print(f'{ascii*largura}')
+        print(ascii*largura)
         desenhaParalelograma(largura, altura, ascii, i+1)
     elif i == altura-1:
-        print(f'{" "*i}{ascii*largura}')
+        print(" "*i + ascii*largura)
     elif i < altura:
-        print(f'{" "*i}{ascii}{" "*(largura - 2)}{ascii}')
+        print(" "*i + ascii + " "*(largura - 2) + ascii)
         desenhaParalelograma(largura, altura, ascii, i+1)
 
 def desenhaTrianguloEquilatero(altura, ascii, i=1, gap=0):
+    """
+    Esta função desenha um triangulo equilatero de altura {altura} com os caracteres {ascii}
+    sem retorno
+    """
     if i == altura:
         if altura%2==1:
-            print(f'{ascii*(altura*2-1)}')
+            print(ascii*(altura*2-1))
         else:
-            print(f'{ascii*((2*altura)-1)}')
+            print(ascii*((2*altura)-1))
     elif i == 1:
-        print(f'{" "*(altura-1)}{ascii}')
+        print(" "*(altura-1) + ascii)
         desenhaTrianguloEquilatero(altura, ascii, i+1, gap+1)
     elif i < altura:
         if altura%2==1:
-            print(f'{" "*(altura-i)}{ascii}{" "*(gap)}{ascii}')
+            print(" "*(altura-i) + ascii + " "*(gap) + ascii)
             desenhaTrianguloEquilatero(altura, ascii, i+1, gap+2)
         else:
             if i-1 == 1:
-                print(f'{" "*(altura-i)}{ascii}{" "*(i-1)}{ascii}')
+                print(" "*(altura-i) + ascii + " "*(i-1) + ascii)
                 desenhaTrianguloEquilatero(altura, ascii, i+1, gap+2)
             else:
-                print(f'{" "*(altura-i)}{ascii}{" "*gap}{ascii}')
+                print(" "*(altura-i) + ascii + " "*gap + ascii)
                 desenhaTrianguloEquilatero(altura, ascii, i+1, gap+2)
             
 def desenhaTrianguloRetanguloEsquerdo(altura, ascii, i=1, gap=0):
+    """
+    Esta função desenha um triangulo retangulo esquerdo de altura {altura} com os caracteres {ascii}
+    sem retorno
+    """
     if i == altura:
         print(ascii*altura)
     elif i == 1:
@@ -64,6 +76,10 @@ def desenhaTrianguloRetanguloEsquerdo(altura, ascii, i=1, gap=0):
         desenhaTrianguloRetanguloEsquerdo(altura, ascii, i+1, gap+1)
 
 def desenhaTrianguloRetanguloDireito(altura, ascii, i=1, gap=0):
+    """
+    Esta função desenha um triangulo retangulo direito de altura {altura} com os caracteres {ascii}
+    sem retorno
+    """
     if i == altura:
         print(ascii*altura)
     elif i == 1:
@@ -74,12 +90,20 @@ def desenhaTrianguloRetanguloDireito(altura, ascii, i=1, gap=0):
         desenhaTrianguloRetanguloDireito(altura, ascii, i+1, gap+1)
 
 def desenhaDuasDimensoes(tipo, largura, altura, ascii):
+    """
+    Verica qual tipo de objeto de duas dimensoes deve ser desenhado e chama sua respectiva função
+    sem retorno
+    """
     if tipo == 'R':
         desenhaRetangulo(largura, altura, ascii)
-    else:
+    elif tipo == 'P':
         desenhaParalelograma(largura, altura, ascii)
 
 def desenhaUmaDimensao(tipo, altura, ascii):
+    """
+    Verica qual tipo de objeto de uma dimensao deve ser desenhado e chama sua respectiva função
+    sem retorno
+    """
     if tipo == 'TE':
         desenhaTrianguloEquilatero(altura, ascii)
     elif tipo == 'TRE':
