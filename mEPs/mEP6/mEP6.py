@@ -50,7 +50,7 @@ def desenhaTrianguloEquilatero(altura, ascii, i=1, gap=0):
                 print(f'{" "*(altura-i)}{ascii}{" "*(i-1)}{ascii}')
                 desenhaTrianguloEquilatero(altura, ascii, i+1, gap+2)
             else:
-                print(f'{" "*(altura-i)}{ascii}{" "*(gap + 1)}{ascii}')
+                print(f'{" "*(altura-i)}{ascii}{" "*gap}{ascii}')
                 desenhaTrianguloEquilatero(altura, ascii, i+1, gap+2)
             
 def desenhaTrianguloRetanguloEsquerdo(altura, ascii, i=1, gap=0):
