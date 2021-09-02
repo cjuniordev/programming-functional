@@ -46,39 +46,75 @@ def desenhaDuasDimensoes(tipo, largura, altura, ascii):
     else:
         desenhaParalelograma(largura, altura, ascii)
 
-def desenhaTrianguloEquilatero(altura, ascii, i=0):
-    if i == 0:
-        print(f'{" "*(int(altura/2)-1)}{ascii}')
-        desenhaTrianguloEquilatero(altura, ascii, i+1)
-    elif i == altura-1:
-        print(f'{ascii*altura}')
+def desenhaTrianguloEquilatero(altura, ascii, i=1, gap=0):
+    if i == altura:
+        if altura%2==1:
+            print(f'{ascii*(altura*2-1)}')
+        else:
+            print(f'{ascii*((2*altura)-1)}')
+    elif i == 1:
+        print(f'{" "*(altura-1)}{ascii}')
+        desenhaTrianguloEquilatero(altura, ascii, i+1, gap+1)
     elif i < altura:
-        print(f'{" "*int((altura-i)/2)}{ascii}{" "*i}{ascii}')
-        desenhaTrianguloEquilatero(altura, ascii, i+1)
+        if altura%2==1:
+            print(f'{" "*(altura-i)}{ascii}{" "*(gap)}{ascii}')
+            desenhaTrianguloEquilatero(altura, ascii, i+1, gap+2)
+        else:
+            if i-1 == 1:
+                print(f'{" "*(altura-i)}{ascii}{" "*(i-1)}{ascii}')
+                desenhaTrianguloEquilatero(altura, ascii, i+1, gap+2)
+            else:
+                print(f'{" "*(altura-i)}{ascii}{" "*(gap + 1)}{ascii}')
+                desenhaTrianguloEquilatero(altura, ascii, i+1, gap+2)
+            
+def desenhaTrianguloRetanguloEsquerdo(altura, ascii, i=1, gap=0):
+    if i == altura:
+        print(ascii*altura)
+    elif i == 1:
+        print(ascii)
+        desenhaTrianguloRetanguloEsquerdo(altura, ascii, i+1)
+    else:
+        print(ascii + " "*gap + ascii)
+        desenhaTrianguloRetanguloEsquerdo(altura, ascii, i+1, gap+1)
+
+def desenhaTrianguloRetanguloDireito(altura, ascii, i=1, gap=0):
+    if i == altura:
+        print(ascii*altura)
+    elif i == 1:
+        print(" "*(altura-i) + ascii)
+        desenhaTrianguloRetanguloDireito(altura, ascii, i+1)
+    else:
+        print(" "*(altura-i) + ascii + " "*gap + ascii)
+        desenhaTrianguloRetanguloDireito(altura, ascii, i+1, gap+1)
 
 def desenhaUmaDimensao(tipo, altura, ascii):
     if tipo == 'TE':
         desenhaTrianguloEquilatero(altura, ascii)
-    """ elif tipo == 'TRD':
-    elif tipo == 'TRE': """
+    elif tipo == 'TRE':
+        desenhaTrianguloRetanguloEsquerdo(altura, ascii)
+    elif tipo == 'TRD':
+        desenhaTrianguloRetanguloDireito(altura, ascii)
+
 def main():
     tipo = input()
     if quantasDimensoes(tipo) == 2:
         largura = int(input())
         altura = int(input())
+        ascii = input()
+        if not verificaDimensoes(largura, altura):
+            print('Medida invalida')
+        else:
+            desenhaDuasDimensoes(tipo, largura, altura, ascii)
+
     elif quantasDimensoes(tipo) == 1:
         largura = 1
         altura = int(input())
+        ascii = input()
+        if not verificaDimensoes(largura, altura):
+            print('Medida invalida')
+        else:
+            desenhaUmaDimensao(tipo, altura, ascii)
     else:
         print('Objeto invalido')
-
-    ascii = input()
-
-    if not verificaDimensoes(largura, altura):
-        print('Medida invalida')
-    else:
-        desenhaDuasDimensoes(tipo, largura, altura, ascii)
-
-    
 
 main()
