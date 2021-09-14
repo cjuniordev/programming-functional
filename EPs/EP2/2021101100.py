@@ -1,5 +1,5 @@
 import random
-from os import system, name 
+from os import X_OK, system, name 
 
 def getMatricula():
     """
@@ -57,23 +57,66 @@ def jogadaComputador(tabuleiro, simboloComputador):
 
 
 def jogadaHumano(tabuleiro, simboloHumano):
-    ...
+    jogada = int(input('Digite uma posição: [1-9] '))
+    if jogada < 1 or jogada > 9:
+        _ = input('Valor inválido, pressione enter para tentar novamente.')
+        return jogadaHumano(tabuleiro, simboloHumano)
+    else:
+        ## verificar se o espaço está disponível
+        if tabuleiro[jogada] == ' ':
+            tabuleiro[jogada] = simboloHumano
+            return tabuleiro
+        else:
+            _ = input('Essa opção está ocupada, pressione enter para tentar novamente.')
+            return jogadaHumano(tabuleiro, simboloHumano)
+
+def imprimeTabuleiro(tabuleiro):
+    print(f'{tabuleiro[7]} | {tabuleiro[8]} | {tabuleiro[9]}')
+    print('--+---+--')
+    print(f'{tabuleiro[4]} | {tabuleiro[5]} | {tabuleiro[6]}')
+    print('--+---+--')
+    print(f'{tabuleiro[1]} | {tabuleiro[2]} | {tabuleiro[3]}')
+
+def vitória(tabuleiro, simbolo):
+    ## horizontais: 123, 456, 789
+    ## verticais: 147, 258, 369
+    ## diagonais: 357, 159
+    if tabuleiro[1] == tabuleiro[2] == tabuleiro[3] == simbolo:
+        return True, simbolo
+    elif tabuleiro[4] == tabuleiro[5] == tabuleiro[6] == simbolo:
+        return True, simbolo
+    elif tabuleiro[7] == tabuleiro[8] == tabuleiro[9] == simbolo:
+        return True, simbolo
+    elif tabuleiro[1] == tabuleiro[4] == tabuleiro[7] == simbolo:
+        return True, simbolo
+    elif tabuleiro[2] == tabuleiro[5] == tabuleiro[8] == simbolo:
+        return True, simbolo
+    elif tabuleiro[3] == tabuleiro[6] == tabuleiro[9] == simbolo:
+        return True, simbolo
+    elif tabuleiro[3] == tabuleiro[5] == tabuleiro[7] == simbolo:
+        return True, simbolo
+    elif tabuleiro[1] == tabuleiro[5] == tabuleiro[9] == simbolo:
+        return True, simbolo
+    else:
+        return False, simbolo
 
 def main():
     #Você pode, se quiser, comentar os dois prints abaixo:
     #print(getNome())
     #print(getMatricula())
 
-    tabuleiro = ['']*10
+    tabuleiro = [' ']*10
     limpaTela()
 
-    primeiroJogador = quemInicia()
     simboloHumano, simboloComputador = escolheSimbolo()
+    primeiroJogador = quemInicia()
 
-    if primeiroJogador == 0:
-        jogadaHumano(tabuleiro, simboloHumano)
-    else:
-        jogadaComputador(tabuleiro, simboloComputador)
+    tabuleiro = jogadaHumano(tabuleiro, simboloHumano)
+    imprimeTabuleiro(tabuleiro)
+    #if primeiroJogador == 0:
+    #    jogadaHumano(tabuleiro, simboloHumano)
+    #else:
+    #    jogadaComputador(tabuleiro, simboloComputador)
 
 
 ## NÃO ALTERE O CÓDIGO ABAIXO ##
