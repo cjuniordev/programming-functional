@@ -183,6 +183,22 @@ def pegaJogadasDisponiveis(tabuleiro, J=[], i=1):
     else:
         return J
 
+def verificaPossívelVitoria(tabuleiro, posicoes_disponiveis, simbolo, copiaTabuleiro=[], i=0):
+    # fazer recursao q verifica todos espaços vazios, gera copia do tabuleiro, e tenta verificar se alguma gera vitoria
+    if i == 0:
+        return verificaPossívelVitoria(tabuleiro, posicoes_disponiveis, simbolo, tabuleiro[:], i+1)
+    elif i <= len(posicoes_disponiveis):
+        jogada = posicoes_disponiveis[i-1]
+        copiaTabuleiro[jogada] = simbolo
+        if vitoria(copiaTabuleiro, simbolo):
+            return jogada
+        else:
+            return verificaPossívelVitoria(tabuleiro, posicoes_disponiveis, simbolo, tabuleiro[:], i+1)
+    else:
+        return None
+
+    
+
 
 def main():
     #Você pode, se quiser, comentar os dois prints abaixo:
@@ -192,12 +208,16 @@ def main():
     tabuleiro = [' ']*10
     limpaTela() 
 
-    tab = [' ', 'x', ' ', 'o', 'x', 'o', 'x', ' ', ' ']
-    vazio = tabuleiroVazio(tab)
+    tab = [' ',
+    'X', ' ', 'X',
+    ' ', 'O', 'X',
+    ' ', ' ', ' ']
+    #vazio = tabuleiroVazio(tab)
     disponiveis = pegaJogadasDisponiveis(tab)
-    preferencia = jogadas_preferenciais(disponiveis)
+    print(verificaPossívelVitoria(tab, disponiveis, 'X'))
+    #preferencia = jogadas_preferenciais(disponiveis)
     
-    print(jogadaComputador(tab, 'O', vazio, disponiveis, preferencia))
+    #print(jogadaComputador(tab, 'O', vazio, disponiveis, preferencia))
 
 """
     simboloHumano, simboloHumano2 = escolheSimbolo()
@@ -211,6 +231,9 @@ if __name__ == "__main__":
     main()
 
 # nao deixar usar o 0
+# fazer o computador ver se tem como ganhar e, um lance
+
+
 ## tabuleiro
 ## 7, 8, 9
 ## 4, 5, 6
