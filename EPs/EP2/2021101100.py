@@ -24,26 +24,21 @@ def quemInicia():
 
 def escolheSimbolo():
     simboloHumano = input('Escolha um simbolo para jogar(X ou O): ')
-    if simboloHumano == 'X':
+    simboloComputador = ''
+    if simboloHumano in 'Xx':
+        simboloHumano = 'X'
         simboloComputador = 'O'
-        return simboloHumano, simboloComputador
-    elif simboloHumano == 'O':
+    elif simboloHumano in 'Oo':
+        simboloHumano = 'O'
         simboloComputador = 'X'
-        return simboloHumano, simboloComputador
-    elif simboloHumano == 'x':
-        simboloHumano == 'X'
-        simboloComputador = 'O'
-        return simboloHumano, simboloComputador
-    elif simboloHumano == 'o':
-        simboloHumano == 'O'
-        simboloComputador = 'X'
-        return simboloHumano, simboloComputador
     else:
         print('Digite um símbolo válido!')
         _ = input('Pressione enter para continuar.')
         return escolheSimbolo()
-        
-    
+
+    print(simboloComputador, simboloHumano)
+
+    return simboloHumano, simboloComputador
 
 def jogadaHumano(tabuleiro, simboloHumano):
     jogada = int(input('Digite uma posição: [1-9] '))
@@ -234,9 +229,17 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
                 return ' '
             else:
                 return jogo(tabuleiro, simboloHumano, simboloComputador, 0, i+1)
+
+def desejaContinuar():
+    continuar = input('Deseja continuar jogando? (s/n)')
+    if continuar in 'Ss':
+        return True
+    elif continuar in 'Nn':
+        return False
     else:
-        return 'erro'
-     
+        print('Opção inválida, tente novamente!')
+        return desejaContinuar()
+
 def main():
     #Você pode, se quiser, comentar os dois prints abaixo:
     #print(getNome())   
@@ -252,6 +255,10 @@ def main():
     limpaTela()
     imprimeTabuleiro(tabuleiro)
     fimDeJogo(resultado, simboloHumano, simbolosComputador)
+    if desejaContinuar():
+        main()
+    else:
+        print('Obrigado por jogar!')
 
 ## NÃO ALTERE O CÓDIGO ABAIXO ##
 if __name__ == "__main__":
