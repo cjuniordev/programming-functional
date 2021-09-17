@@ -23,12 +23,19 @@ def quemInicia():
     return random.randint(0, 1)
 
 def escolheSimbolo():
-    ## verificar depois se aceita chars minúsculos
     simboloHumano = input('Escolha um simbolo para jogar(X ou O): ')
     if simboloHumano == 'X':
         simboloComputador = 'O'
         return simboloHumano, simboloComputador
     elif simboloHumano == 'O':
+        simboloComputador = 'X'
+        return simboloHumano, simboloComputador
+    elif simboloHumano == 'x':
+        simboloHumano == 'X'
+        simboloComputador = 'O'
+        return simboloHumano, simboloComputador
+    elif simboloHumano == 'o':
+        simboloHumano == 'O'
         simboloComputador = 'X'
         return simboloHumano, simboloComputador
     else:
@@ -67,7 +74,7 @@ def tabuleiroVazio(tabuleiro, vazio=True, i=0):
         if tabuleiro[i] == ' ':
             return tabuleiroVazio(tabuleiro, vazio, i+1)
         else:
-            return tabuleiroVazio(tabuleiro, False, i+1)
+            return False
     else:
         return vazio
 
@@ -113,12 +120,12 @@ def fimDeJogo(resultado, simboloHumano, simboloComputador):
 
     _ = input('Pressione enter para continuar.')
 
-def jogadas_preferenciais(posicoes_disponiveis, posicoes_desejaveis = [1, 3, 5, 7, 9], J=[], i=0):
+def jogadasPreferenciais(posicoes_disponiveis, posicoes_desejaveis, J=[], i=0):
     if i < len(posicoes_disponiveis):
         if posicoes_disponiveis[i] in posicoes_desejaveis:
-            return jogadas_preferenciais(posicoes_disponiveis, posicoes_desejaveis, J+[posicoes_disponiveis[i]], i+1)
+            return jogadasPreferenciais(posicoes_disponiveis, posicoes_desejaveis, J+[posicoes_disponiveis[i]], i+1)
         else:
-            return jogadas_preferenciais(posicoes_disponiveis, posicoes_desejaveis, J, i+1)
+            return jogadasPreferenciais(posicoes_disponiveis, posicoes_desejaveis, J, i+1)
     else:
         return J
 
@@ -159,7 +166,7 @@ def verificaPossivelDerrota(tabuleiro, posicoes_disponiveis, simbolo, copiaTabul
     else:
         return None
 
-def jogadaComputador(tabuleiro, simboloComputador, vazio, posicoes_livres, preferencias):
+def jogadaComputador(tabuleiro, simboloComputador):
     """
     Recebe o tabuleiro e o simbolo (X ou O) do computador e determina onde o computador deve jogar
     O tabuleiro pode estar vazio (caso o computador seja o primeiro a jogar) ou com algumas posições preenchidas, 
@@ -177,85 +184,75 @@ def jogadaComputador(tabuleiro, simboloComputador, vazio, posicoes_livres, prefe
     """
     posicoes_desejaveis = [1, 3, 7, 9]
     centro = [5]
-    if vazio:
+    if tabuleiroVazio(tabuleiro):
         return random.choice(posicoes_desejaveis)
     
-    jogada = verificaPossivelVitoria(tabuleiro, posicoes_livres, simboloComputador)
-    if jogada != None:
-        return jogada
+    # pega jogadas disponiveis e as para jogar
+    disponiveis = pegaJogadasDisponiveis(tabuleiro)
+
+    vitoriaEmUm = verificaPossivelVitoria(tabuleiro, disponiveis, simboloComputador)
+    derrotaEmUm = verificaPossivelDerrota(tabuleiro, disponiveis, simboloComputador)
+    if vitoriaEmUm != None:
+        return vitoriaEmUm
+    elif derrotaEmUm != None:
+        return derrotaEmUm
     else:
-        jogada = verificaPossivelDerrota(tabuleiro, posicoes_livres, simboloComputador)
-        if jogada != None:
-            return jogada
-        else:
+        preferencias = jogadasPreferenciais(disponiveis, posicoes_desejaveis)
+        if len(preferencias) != 0:
             return random.choice(preferencias)
+        else:
+            temCentro = jogadasPreferenciais(disponiveis, centro)
+            if temCentro != None:
+                return temCentro
+            else:
+                return random.choice(disponiveis)
 
-
-def jogo(tabuleiro, simboloHumano, simboloComputador, vez, i=0):
+def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
     if i < 9:
-        if vez == 0:
+        if primeiroJogador == 0:
+            limpaTela()
             imprimeTabuleiro(tabuleiro)
             jogada = jogadaHumano(tabuleiro, simboloHumano)
             alteraTabuleiro(tabuleiro, jogada, simboloHumano)
+
             venceu = vitoria(tabuleiro, simboloHumano)
-            empatou = empate(tabuleiro, venceu)
             if venceu:
                 return simboloHumano
-            elif empatou:
+            elif empate(tabuleiro, venceu):
                 return ' '
             else:
                 return jogo(tabuleiro, simboloHumano, simboloComputador, 1, i+1)
-        elif vez == 1:
-            vazio = tabuleiroVazio(tabuleiro)
-            disponiveis = pegaJogadasDisponiveis(tabuleiro)
-            preferencia = jogadas_preferenciais(disponiveis)
-            jogada = jogadaComputador(tabuleiro, simboloComputador, vazio, disponiveis, preferencia)
+
+        elif primeiroJogador == 1:
+            jogada = jogadaComputador(tabuleiro, simboloComputador)
             alteraTabuleiro(tabuleiro, jogada, simboloComputador)
             venceu = vitoria(tabuleiro, simboloComputador)
-            empatou = empate(tabuleiro, venceu)
+            
             if venceu:
                 return simboloComputador
-            elif empatou:
+            elif empate(tabuleiro, venceu):
                 return ' '
             else:
                 return jogo(tabuleiro, simboloHumano, simboloComputador, 0, i+1)
     else:
         return 'erro'
      
-            
 def main():
     #Você pode, se quiser, comentar os dois prints abaixo:
     #print(getNome())   
     #print(getMatricula())
 
+    limpaTela()
     tabuleiro = [' ']*10
-    limpaTela() 
 
-    tab = [' ',
-    'X', 'O', ' ',
-    ' ', ' ', 'X',
-    ' ', ' ', ' ']
-
-    simboloHumano, simboloHumano2 = escolheSimbolo()
+    simboloHumano, simbolosComputador = escolheSimbolo()
     primeiroJogador = quemInicia()
 
-    resultado = jogo(tabuleiro, simboloHumano, simboloHumano2, primeiroJogador)
+    resultado = jogo(tabuleiro, simboloHumano, simbolosComputador, primeiroJogador)
+    limpaTela()
     imprimeTabuleiro(tabuleiro)
-    fimDeJogo(resultado, simboloHumano, simboloHumano2)
+    fimDeJogo(resultado, simboloHumano, simbolosComputador)
 
 ## NÃO ALTERE O CÓDIGO ABAIXO ##
 if __name__ == "__main__":
     main()
-
-# nao deixar usar o 0
-# fazer o computador ver se tem como ganhar e, um lance
-
-
-## tabuleiro
-## 7, 8, 9
-## 4, 5, 6
-## 1, 2, 3
-
-## estratégia
-### verificar se tem como ganhar em um lance
-### buscar os cantos e depois o centro
