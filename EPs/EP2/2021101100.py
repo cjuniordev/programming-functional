@@ -1,5 +1,5 @@
 import random
-from os import X_OK, system, name 
+from os import system, name 
 
 def getMatricula():
     """
@@ -40,6 +40,14 @@ def escolheSimbolo():
 
     return simboloHumano, simboloComputador
 
+def alteraTabuleiro(tabuleiro, jogada, simbolo):
+    tabuleiroAuxiliar = tabuleiro[:]
+    if tabuleiroAuxiliar[jogada] == ' ':
+        tabuleiroAuxiliar[jogada] = simbolo
+        return tabuleiroAuxiliar
+    else:
+        return None
+
 def jogadaHumano(tabuleiro, simboloHumano):
     jogada = int(input('Digite uma posição: [1-9] '))
     if jogada < 1 or jogada > 9:
@@ -47,7 +55,7 @@ def jogadaHumano(tabuleiro, simboloHumano):
         return jogadaHumano(tabuleiro, simboloHumano)
     else:
         ## verificar se o espaço está disponível
-        if tabuleiro[jogada] == ' ':
+        if alteraTabuleiro(tabuleiro, jogada, simboloHumano) != None:
             return jogada
         else:
             _ = input('Essa opção está ocupada, pressione enter para tentar novamente.')
@@ -60,9 +68,7 @@ def imprimeTabuleiro(tabuleiro):
     print('--+---+--')
     print(f'{tabuleiro[1]} | {tabuleiro[2]} | {tabuleiro[3]}')
 
-def alteraTabuleiro(tabuleiro, jogada, simbolo):
-    tabuleiro[jogada] = simbolo
-    return tabuleiro
+
 
 def tabuleiroVazio(tabuleiro, vazio=True, i=0):
     if i < len(tabuleiro):
@@ -105,7 +111,10 @@ def empate(tabuleiro, vitoria):
         else:
             return False
 
-def fimDeJogo(resultado, simboloHumano, simboloComputador):
+def fimDeJogo(tabuleiro, resultado, simboloHumano, simboloComputador):
+    limpaTela()
+    imprimeTabuleiro(tabuleiro)
+    print('-'*10)
     if resultado == ' ':
         print('Empatou!')
     elif resultado == simboloHumano:
@@ -161,6 +170,18 @@ def verificaPossivelDerrota(tabuleiro, posicoes_disponiveis, simbolo, copiaTabul
     else:
         return None
 
+def jogaDiagonalOposta(tabuleiro, simboloComputador):
+    if tabuleiro[1] == simboloComputador and tabuleiro[9] == ' ':
+        return 9
+    elif tabuleiro[9] == simboloComputador and tabuleiro[1] == ' ':
+        return 1
+    elif tabuleiro[3] == simboloComputador and tabuleiro[7] == ' ':
+        return 7
+    elif tabuleiro[7] == simboloComputador and tabuleiro[3] == ' ':
+        return 3
+    else:
+        return None
+
 def jogadaComputador(tabuleiro, simboloComputador):
     """
     Recebe o tabuleiro e o simbolo (X ou O) do computador e determina onde o computador deve jogar
@@ -193,6 +214,11 @@ def jogadaComputador(tabuleiro, simboloComputador):
         return derrotaEmUm
     else:
         preferencias = jogadasPreferenciais(disponiveis, posicoes_desejaveis)
+
+        diagonal_oposta = jogaDiagonalOposta(tabuleiro, simboloComputador)
+        if diagonal_oposta != None:
+            return diagonal_oposta
+
         if len(preferencias) != 0:
             return random.choice(preferencias)
         else:
@@ -202,35 +228,46 @@ def jogadaComputador(tabuleiro, simboloComputador):
             else:
                 return random.choice(disponiveis)
 
+def venceuOuEmpatou(tabuleiro, simbolo):
+    venceu = vitoria(tabuleiro, simbolo)
+    if venceu:
+        return simbolo
+    elif empate(tabuleiro, venceu):
+        return ' '
+    else:
+        return None
+
 def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
     if i < 9:
         if primeiroJogador == 0:
             limpaTela()
             imprimeTabuleiro(tabuleiro)
             jogada = jogadaHumano(tabuleiro, simboloHumano)
-            alteraTabuleiro(tabuleiro, jogada, simboloHumano)
+            tabuleiroAuxiliar = alteraTabuleiro(tabuleiro, jogada, simboloHumano)
+            if tabuleiroAuxiliar != None:
+                tabuleiro = tabuleiroAuxiliar
 
-            venceu = vitoria(tabuleiro, simboloHumano)
-            if venceu:
-                return simboloHumano
-            elif empate(tabuleiro, venceu):
-                return ' '
+            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloHumano)
+            if vitoria_ou_empate != None:
+                return vitoria_ou_empate, tabuleiro
             else:
                 return jogo(tabuleiro, simboloHumano, simboloComputador, 1, i+1)
 
         elif primeiroJogador == 1:
             jogada = jogadaComputador(tabuleiro, simboloComputador)
-            alteraTabuleiro(tabuleiro, jogada, simboloComputador)
-            venceu = vitoria(tabuleiro, simboloComputador)
-            
-            if venceu:
-                return simboloComputador
-            elif empate(tabuleiro, venceu):
-                return ' '
+
+            tabuleiroAuxiliar = alteraTabuleiro(tabuleiro, jogada, simboloComputador)
+            if tabuleiroAuxiliar != None:
+                tabuleiro = tabuleiroAuxiliar
+
+            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloComputador)
+            if vitoria_ou_empate != None:
+                return vitoria_ou_empate, tabuleiro
             else:
                 return jogo(tabuleiro, simboloHumano, simboloComputador, 0, i+1)
 
 def desejaContinuar():
+    limpaTela()
     continuar = input('Deseja continuar jogando? (s/n)')
     if continuar in 'Ss':
         return True
@@ -251,10 +288,8 @@ def main():
     simboloHumano, simbolosComputador = escolheSimbolo()
     primeiroJogador = quemInicia()
 
-    resultado = jogo(tabuleiro, simboloHumano, simbolosComputador, primeiroJogador)
-    limpaTela()
-    imprimeTabuleiro(tabuleiro)
-    fimDeJogo(resultado, simboloHumano, simbolosComputador)
+    resultado, tabuleiro = jogo(tabuleiro, simboloHumano, simbolosComputador, primeiroJogador)
+    fimDeJogo(tabuleiro, resultado, simboloHumano, simbolosComputador)
     if desejaContinuar():
         main()
     else:
@@ -263,3 +298,5 @@ def main():
 ## NÃO ALTERE O CÓDIGO ABAIXO ##
 if __name__ == "__main__":
     main()
+
+## criar estrategia para quando adversario jogar nos cantos
