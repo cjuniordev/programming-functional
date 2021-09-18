@@ -177,6 +177,8 @@ def jogaDiagonalOposta(tabuleiro, simboloComputador):
     else:
         return None
 
+def anulaLaterais():
+    ...
 def jogadaComputador(tabuleiro, simboloComputador):
     """
     Recebe o tabuleiro e o simbolo (X ou O) do computador e determina onde o computador deve jogar
@@ -291,5 +293,3 @@ def main():
 ## NÃO ALTERE O CÓDIGO ABAIXO ##
 if __name__ == "__main__":
     main()
-
-## criar estrategia para quando adversario jogar nos cantos
