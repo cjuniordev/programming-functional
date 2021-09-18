@@ -38,13 +38,16 @@ def escolheSimbolo():
 
     return simboloHumano, simboloComputador
 
+def posicaoDisponível(tabuleiro, jogada):
+    if tabuleiro[jogada] == ' ':
+        return True
+    else:
+        return False
+
 def alteraTabuleiro(tabuleiro, jogada, simbolo):
     tabuleiroAuxiliar = tabuleiro[:]
-    if tabuleiroAuxiliar[jogada] == ' ':
-        tabuleiroAuxiliar[jogada] = simbolo
-        return tabuleiroAuxiliar
-    else:
-        return None
+    tabuleiroAuxiliar[jogada] = simbolo
+    return tabuleiroAuxiliar
 
 def jogadaHumano(tabuleiro, simboloHumano):
     jogada = int(input('Digite uma posição: [1-9] '))
@@ -52,7 +55,7 @@ def jogadaHumano(tabuleiro, simboloHumano):
         _ = input('Valor inválido, pressione enter para tentar novamente.')
         return jogadaHumano(tabuleiro, simboloHumano)
     else:
-        if alteraTabuleiro(tabuleiro, jogada, simboloHumano) != None:
+        if posicaoDisponível(tabuleiro, jogada):
             return jogada
         else:
             _ = input('Essa opção está ocupada, pressione enter para tentar novamente.')
@@ -106,16 +109,13 @@ def empate(tabuleiro, vitoria):
         else:
             return False
 
-def fimDeJogo(tabuleiro, resultado, simboloHumano, simboloComputador):
-    limpaTela()
-    imprimeTabuleiro(tabuleiro)
-    print('-'*10)
-    if resultado == ' ':
-        print('Empatou!')
-    elif resultado == simboloHumano:
-        print('Humano venceu!')
+def fimDeJogo(resultado, simboloHumano, simboloComputador):
+    if resultado == simboloHumano:
+        print('-> Humano venceu!')
     elif resultado == simboloComputador:
-        print('Computador venceu!')
+        print('--> Computador venceu!')
+    else:
+        print('--> Empatou!')
 
     _ = input('Pressione enter para continuar.')
 
@@ -229,8 +229,6 @@ def venceuOuEmpatou(tabuleiro, simbolo):
         return simbolo
     elif empate(tabuleiro, venceu):
         return ' '
-    else:
-        return None
 
 def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
     if i < 9:
@@ -238,28 +236,25 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
             limpaTela()
             imprimeTabuleiro(tabuleiro)
             jogada = jogadaHumano(tabuleiro, simboloHumano)
-            tabuleiroAuxiliar = alteraTabuleiro(tabuleiro, jogada, simboloHumano)
-            if tabuleiroAuxiliar != None:
-                tabuleiro = tabuleiroAuxiliar
-                vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloHumano)
-                if vitoria_ou_empate != None:
-                    print(vitoria_ou_empate, tabuleiro)
-                    return [vitoria_ou_empate, tabuleiro]
-                else:
-                    return jogo(tabuleiro, simboloHumano, simboloComputador, 1, i+1)
+            tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloHumano)
+            
+            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloHumano)
+            if vitoria_ou_empate:
+                limpaTela()
+                imprimeTabuleiro(tabuleiro)
+                return vitoria_ou_empate
             else:
-                _ = input('Posição inválida! Tente novamente. ')
+                return jogo(tabuleiro, simboloHumano, simboloComputador, 1, i+1), tabuleiro
             
         elif primeiroJogador == 1:
             jogada = jogadaComputador(tabuleiro, simboloComputador)
-
-            tabuleiroAuxiliar = alteraTabuleiro(tabuleiro, jogada, simboloComputador)
-            if tabuleiroAuxiliar != None:
-                tabuleiro = tabuleiroAuxiliar
+            tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloComputador)
 
             vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloComputador)
-            if vitoria_ou_empate != None:
-                return [vitoria_ou_empate, tabuleiro]
+            if vitoria_ou_empate:
+                limpaTela()
+                imprimeTabuleiro(tabuleiro)
+                return vitoria_ou_empate
             else:
                 return jogo(tabuleiro, simboloHumano, simboloComputador, 0, i+1)
 
@@ -286,11 +281,11 @@ def main():
     primeiroJogador = quemInicia()
 
     resultado = jogo(tabuleiro, simboloHumano, simbolosComputador, primeiroJogador)
-    tabuleiro = resultado[1]
-    fimDeJogo(tabuleiro, resultado[0], simboloHumano, simbolosComputador)
+    fimDeJogo(resultado, simboloHumano, simbolosComputador)
     if desejaContinuar():
         main()
     else:
+        limpaTela()
         print('Obrigado por jogar!')
 
 ## NÃO ALTERE O CÓDIGO ABAIXO ##
