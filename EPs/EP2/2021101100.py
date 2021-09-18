@@ -209,7 +209,6 @@ def jogadaComputador(tabuleiro, simboloComputador):
         return derrotaEmUm
     else:
         preferencias = jogadasPreferenciais(disponiveis, posicoes_desejaveis)
-        input(f'Disponívieis: {disponiveis}; Preferencias: {preferencias}')
 
         diagonal_oposta = jogaDiagonalOposta(tabuleiro, simboloComputador)
         if diagonal_oposta != None:
@@ -245,13 +244,12 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
                 vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloHumano)
                 if vitoria_ou_empate != None:
                     print(vitoria_ou_empate, tabuleiro)
-                    return vitoria_ou_empate, tabuleiro
+                    return [vitoria_ou_empate, tabuleiro]
                 else:
                     return jogo(tabuleiro, simboloHumano, simboloComputador, 1, i+1)
             else:
                 _ = input('Posição inválida! Tente novamente. ')
             
-
         elif primeiroJogador == 1:
             jogada = jogadaComputador(tabuleiro, simboloComputador)
 
@@ -261,7 +259,7 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
 
             vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloComputador)
             if vitoria_ou_empate != None:
-                return vitoria_ou_empate, tabuleiro
+                return [vitoria_ou_empate, tabuleiro]
             else:
                 return jogo(tabuleiro, simboloHumano, simboloComputador, 0, i+1)
 
@@ -287,8 +285,9 @@ def main():
     simboloHumano, simbolosComputador = escolheSimbolo()
     primeiroJogador = quemInicia()
 
-    resultado, tabuleiro = jogo(tabuleiro, simboloHumano, simbolosComputador, primeiroJogador)
-    fimDeJogo(tabuleiro, resultado, simboloHumano, simbolosComputador)
+    resultado = jogo(tabuleiro, simboloHumano, simbolosComputador, primeiroJogador)
+    tabuleiro = resultado[1]
+    fimDeJogo(tabuleiro, resultado[0], simboloHumano, simbolosComputador)
     if desejaContinuar():
         main()
     else:
