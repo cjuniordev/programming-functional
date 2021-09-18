@@ -36,8 +36,6 @@ def escolheSimbolo():
         _ = input('Pressione enter para continuar.')
         return escolheSimbolo()
 
-    print(simboloComputador, simboloHumano)
-
     return simboloHumano, simboloComputador
 
 def alteraTabuleiro(tabuleiro, jogada, simbolo):
@@ -54,7 +52,6 @@ def jogadaHumano(tabuleiro, simboloHumano):
         _ = input('Valor inválido, pressione enter para tentar novamente.')
         return jogadaHumano(tabuleiro, simboloHumano)
     else:
-        ## verificar se o espaço está disponível
         if alteraTabuleiro(tabuleiro, jogada, simboloHumano) != None:
             return jogada
         else:
@@ -67,8 +64,6 @@ def imprimeTabuleiro(tabuleiro):
     print(f'{tabuleiro[4]} | {tabuleiro[5]} | {tabuleiro[6]}')
     print('--+---+--')
     print(f'{tabuleiro[1]} | {tabuleiro[2]} | {tabuleiro[3]}')
-
-
 
 def tabuleiroVazio(tabuleiro, vazio=True, i=0):
     if i < len(tabuleiro):
@@ -214,16 +209,17 @@ def jogadaComputador(tabuleiro, simboloComputador):
         return derrotaEmUm
     else:
         preferencias = jogadasPreferenciais(disponiveis, posicoes_desejaveis)
+        input(f'Disponívieis: {disponiveis}; Preferencias: {preferencias}')
 
         diagonal_oposta = jogaDiagonalOposta(tabuleiro, simboloComputador)
         if diagonal_oposta != None:
             return diagonal_oposta
 
-        if len(preferencias) != 0:
+        if preferencias:
             return random.choice(preferencias)
         else:
             temCentro = jogadasPreferenciais(disponiveis, centro)
-            if temCentro != None:
+            if temCentro:
                 return temCentro
             else:
                 return random.choice(disponiveis)
@@ -246,12 +242,15 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
             tabuleiroAuxiliar = alteraTabuleiro(tabuleiro, jogada, simboloHumano)
             if tabuleiroAuxiliar != None:
                 tabuleiro = tabuleiroAuxiliar
-
-            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloHumano)
-            if vitoria_ou_empate != None:
-                return vitoria_ou_empate, tabuleiro
+                vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloHumano)
+                if vitoria_ou_empate != None:
+                    print(vitoria_ou_empate, tabuleiro)
+                    return vitoria_ou_empate, tabuleiro
+                else:
+                    return jogo(tabuleiro, simboloHumano, simboloComputador, 1, i+1)
             else:
-                return jogo(tabuleiro, simboloHumano, simboloComputador, 1, i+1)
+                _ = input('Posição inválida! Tente novamente. ')
+            
 
         elif primeiroJogador == 1:
             jogada = jogadaComputador(tabuleiro, simboloComputador)
