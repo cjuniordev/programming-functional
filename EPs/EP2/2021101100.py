@@ -104,18 +104,19 @@ def empate(tabuleiro, vitoria):
     if vitoria:
         return False
     else:
-        if ' ' not in tabuleiro:
+        auxTabuleiro = tabuleiro[1:]
+        if ' ' not in auxTabuleiro:
             return True
         else:
             return False
 
 def fimDeJogo(resultado, simboloHumano, simboloComputador):
     if resultado == simboloHumano:
-        print('-> Humano venceu!')
+        print('\n--> Humano venceu!\n')
     elif resultado == simboloComputador:
-        print('--> Computador venceu!')
+        print('\n--> Computador venceu!\n')
     else:
-        print('--> Empatou!')
+        print('\n--> Empatou!\n')
 
     _ = input('Pressione enter para continuar.')
 
@@ -250,9 +251,12 @@ def jogadaComputador(tabuleiro, simboloComputador):
 
 def venceuOuEmpatou(tabuleiro, simbolo):
     venceu = vitoria(tabuleiro, simbolo)
+    print(f'Venceu? {venceu}.')
+    print(f'Simbolo: {simbolo}')
     if venceu:
         return simbolo
     elif empate(tabuleiro, venceu):
+        print('Empatou')
         return ' '
 
 def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
@@ -262,7 +266,7 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
             imprimeTabuleiro(tabuleiro)
             jogada = jogadaHumano(tabuleiro, simboloHumano)
             tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloHumano)
-            
+
             vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloHumano)
             if vitoria_ou_empate:
                 limpaTela()
@@ -316,3 +320,6 @@ def main():
 ## NÃO ALTERE O CÓDIGO ABAIXO ##
 if __name__ == "__main__":
     main()
+
+## a fazer
+### buscar terceira diagonal
