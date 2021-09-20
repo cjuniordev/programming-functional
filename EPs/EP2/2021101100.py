@@ -68,14 +68,14 @@ def imprimeTabuleiro(tabuleiro):
     print('--+---+--')
     print(f'{tabuleiro[1]} | {tabuleiro[2]} | {tabuleiro[3]}')
 
-def tabuleiroVazio(tabuleiro, vazio=True, i=0):
+def tabuleiroVazio(tabuleiro, i=0):
     if i < len(tabuleiro):
         if tabuleiro[i] == ' ':
-            return tabuleiroVazio(tabuleiro, vazio, i+1)
+            return tabuleiroVazio(tabuleiro, i+1)
         else:
             return False
     else:
-        return vazio
+        return True
 
 def vitoria(tabuleiro, simbolo):
     ## horizontais: 123, 456, 789
@@ -119,12 +119,12 @@ def fimDeJogo(resultado, simboloHumano, simboloComputador):
 
     _ = input('Pressione enter para continuar.')
 
-def jogadasPreferenciais(posicoes_disponiveis, posicoes_desejaveis, J=[], i=0):
-    if i < len(posicoes_disponiveis):
-        if posicoes_disponiveis[i] in posicoes_desejaveis:
-            return jogadasPreferenciais(posicoes_disponiveis, posicoes_desejaveis, J+[posicoes_disponiveis[i]], i+1)
+def jogadasPreferenciais(posicoesDisponiveis, posicoesDesejaveis, J=[], i=0):
+    if i < len(posicoesDisponiveis):
+        if posicoesDisponiveis[i] in posicoesDesejaveis:
+            return jogadasPreferenciais(posicoesDisponiveis, posicoesDesejaveis, J+[posicoesDisponiveis[i]], i+1)
         else:
-            return jogadasPreferenciais(posicoes_disponiveis, posicoes_desejaveis, J, i+1)
+            return jogadasPreferenciais(posicoesDisponiveis, posicoesDesejaveis, J, i+1)
     else:
         return J
 
@@ -137,31 +137,31 @@ def pegaJogadasDisponiveis(tabuleiro, J=[], i=1):
     else:
         return J
 
-def verificaPossivelVitoria(tabuleiro, posicoes_disponiveis, simbolo, copiaTabuleiro=[], i=0):
+def verificaPossivelVitoria(tabuleiro, posicoesDisponiveis, simbolo, copiaTabuleiro=[], i=0):
     # fazer recursao q verifica todos espaços vazios, gera copia do tabuleiro, e tenta verificar se alguma gera vitoria
     if i == 0:
-        return verificaPossivelVitoria(tabuleiro, posicoes_disponiveis, simbolo, tabuleiro[:], i+1)
-    elif i <= len(posicoes_disponiveis):
-        jogada = posicoes_disponiveis[i-1]
+        return verificaPossivelVitoria(tabuleiro, posicoesDisponiveis, simbolo, tabuleiro[:], i+1)
+    elif i <= len(posicoesDisponiveis):
+        jogada = posicoesDisponiveis[i-1]
         copiaTabuleiro[jogada] = simbolo
         if vitoria(copiaTabuleiro, simbolo):
             return jogada
         else:
-            return verificaPossivelVitoria(tabuleiro, posicoes_disponiveis, simbolo, tabuleiro[:], i+1)
+            return verificaPossivelVitoria(tabuleiro, posicoesDisponiveis, simbolo, tabuleiro[:], i+1)
     else:
         return None
 
-def verificaPossivelDerrota(tabuleiro, posicoes_disponiveis, simbolo, copiaTabuleiro=[], i=0):
+def verificaPossivelDerrota(tabuleiro, posicoesDisponiveis, simbolo, copiaTabuleiro=[], i=0):
     if i == 0:
         simbolo = 'X' if simbolo == 'O' else 'O'
-        return verificaPossivelDerrota(tabuleiro, posicoes_disponiveis, simbolo, tabuleiro[:], i+1)
-    elif i <= len(posicoes_disponiveis):
-        jogada = posicoes_disponiveis[i-1]
+        return verificaPossivelDerrota(tabuleiro, posicoesDisponiveis, simbolo, tabuleiro[:], i+1)
+    elif i <= len(posicoesDisponiveis):
+        jogada = posicoesDisponiveis[i-1]
         copiaTabuleiro[jogada] = simbolo
         if vitoria(copiaTabuleiro, simbolo):
             return jogada
         else:
-            return verificaPossivelDerrota(tabuleiro, posicoes_disponiveis, simbolo, tabuleiro[:], i+1)
+            return verificaPossivelDerrota(tabuleiro, posicoesDisponiveis, simbolo, tabuleiro[:], i+1)
     else:
         return None
 
@@ -177,8 +177,27 @@ def jogaDiagonalOposta(tabuleiro, simboloComputador):
     else:
         return None
 
-def anulaLaterais():
-    ...
+def quantosLances(tabuleiro, lances=0, i=0):
+    if i < len(tabuleiro):
+        if tabuleiro[i] != ' ':
+            return quantosLances(tabuleiro, lances+1, i+1)
+        else:
+            return quantosLances(tabuleiro, lances, i+1)
+    else:
+        return lances
+
+def jogouPonta(tabuleiro, jogou=False, pontas=[1, 3, 7, 9], i=0):
+    if i < len(tabuleiro):
+        if tabuleiro[i] != ' ':
+            if i in pontas:
+                return jogouPonta(tabuleiro, True, pontas, i+1)
+            else:
+                return jogouPonta(tabuleiro, jogou, pontas, i+1)
+        else:
+            return jogouPonta(tabuleiro, jogou, pontas, i+1)
+    else:
+        return jogou
+
 def jogadaComputador(tabuleiro, simboloComputador):
     """
     Recebe o tabuleiro e o simbolo (X ou O) do computador e determina onde o computador deve jogar
@@ -195,10 +214,14 @@ def jogadaComputador(tabuleiro, simboloComputador):
     Estratégia:
     Explique aqui, de forma resumida, a sua estratégia usada para o computador vencer o jogador
     """
-    posicoes_desejaveis = [1, 3, 7, 9]
+    posicoesDesejaveis = [1, 3, 7, 9]
     centro = [5]
+    laterais = [2, 4, 6, 8]
     if tabuleiroVazio(tabuleiro):
-        return random.choice(posicoes_desejaveis)
+        return random.choice(posicoesDesejaveis)
+
+    if quantosLances(tabuleiro) == 1 and jogouPonta(tabuleiro):
+        return random.choice(laterais)
     
     # pega jogadas disponiveis e as para jogar
     disponiveis = pegaJogadasDisponiveis(tabuleiro)
@@ -210,7 +233,7 @@ def jogadaComputador(tabuleiro, simboloComputador):
     elif derrotaEmUm != None:
         return derrotaEmUm
     else:
-        preferencias = jogadasPreferenciais(disponiveis, posicoes_desejaveis)
+        preferencias = jogadasPreferenciais(disponiveis, posicoesDesejaveis)
 
         diagonal_oposta = jogaDiagonalOposta(tabuleiro, simboloComputador)
         if diagonal_oposta != None:
@@ -279,11 +302,11 @@ def main():
     limpaTela()
     tabuleiro = [' ']*10
 
-    simboloHumano, simbolosComputador = escolheSimbolo()
+    simboloHumano, simboloComputador = escolheSimbolo()
     primeiroJogador = quemInicia()
 
-    resultado = jogo(tabuleiro, simboloHumano, simbolosComputador, primeiroJogador)
-    fimDeJogo(resultado, simboloHumano, simbolosComputador)
+    resultado = jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador)
+    fimDeJogo(resultado, simboloHumano, simboloComputador)
     if desejaContinuar():
         main()
     else:
