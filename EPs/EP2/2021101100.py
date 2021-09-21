@@ -282,7 +282,6 @@ def jogadaComputador(tabuleiro, simboloComputador):
     Se nada disso ocorrer, o computador segue sua estratégia:
     - verifica se é possível jogar nas pontas
     - tenta jogar na ponta oposta ao seu lance, para tentar formar diagonais
-    - [FUTURO] -> tentar formar triangulos
     - se não for possível, tenta jogar em qualquer ponta
     - se não tiver pontas disponíveis, tenta pegar o centro
     - se  nao for possível pegar o centro, joga um posição aleatória dentre as disponíveis
@@ -307,9 +306,9 @@ def jogadaComputador(tabuleiro, simboloComputador):
     else:
         preferencias = jogadasPreferenciais(disponiveis, posicoesDesejaveis)
 
-        diagonal_oposta = jogaDiagonalOposta(tabuleiro, simboloComputador)
-        if diagonal_oposta != None:
-            return diagonal_oposta
+        diagonalOposta = jogaDiagonalOposta(tabuleiro, simboloComputador)
+        if diagonalOposta != None:
+            return diagonalOposta
 
         if preferencias:
             return random.choice(preferencias)
@@ -341,21 +340,21 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
             jogada = jogadaHumano(tabuleiro, simboloHumano)
             tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloHumano)
 
-            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloComputador) 
-            if vitoria_ou_empate:
+            vitoriaOuEmpate = venceuOuEmpatou(tabuleiro, simboloHumano) 
+            if vitoriaOuEmpate:
                 limpaTela()
                 imprimeTabuleiro(tabuleiro) 
-                return vitoria_ou_empate
+                return vitoriaOuEmpate
             
         elif primeiroJogador == 1:
             jogada = jogadaComputador(tabuleiro, simboloComputador)
             tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloComputador)
 
-            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloComputador) 
-            if vitoria_ou_empate:
+            vitoriaOuEmpate = venceuOuEmpatou(tabuleiro, simboloComputador) 
+            if vitoriaOuEmpate:
                 limpaTela()
                 imprimeTabuleiro(tabuleiro) 
-                return vitoria_ou_empate
+                return vitoriaOuEmpate
 
         return jogo(tabuleiro, simboloHumano, simboloComputador, (primeiroJogador+1)%2, i+1)
 
@@ -364,7 +363,7 @@ def desejaContinuar():
     Verifica se o jogador deseja continuar
     """
     limpaTela()
-    continuar = input('Deseja continuar jogando? (s/n)')
+    continuar = input('Deseja continuar jogando? (s/n) ')
     if continuar in 'Ss':
         return True
     elif continuar in 'Nn':
@@ -389,6 +388,7 @@ def main():
 
     resultado = jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador)
     fimDeJogo(resultado, simboloHumano, simboloComputador)
+
     if desejaContinuar():
         main()
     else:
@@ -398,6 +398,3 @@ def main():
 ## NÃO ALTERE O CÓDIGO ABAIXO ##
 if __name__ == "__main__":
     main()
-
-## a fazer
-### buscar terceira diagonal
