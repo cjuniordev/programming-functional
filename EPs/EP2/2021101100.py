@@ -296,7 +296,6 @@ def jogadaComputador(tabuleiro, simboloComputador):
     if quantosLances(tabuleiro) == 1 and jogouPonta(tabuleiro):
         return random.choice(laterais)
     
-    # pega jogadas disponiveis e as para jogar
     disponiveis = pegaJogadasDisponiveis(tabuleiro)
 
     vitoriaEmUm = verificaPossivelVitoria(tabuleiro, disponiveis, simboloComputador)
@@ -342,25 +341,23 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
             jogada = jogadaHumano(tabuleiro, simboloHumano)
             tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloHumano)
 
-            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloHumano)
+            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloComputador) 
             if vitoria_ou_empate:
                 limpaTela()
-                imprimeTabuleiro(tabuleiro)
+                imprimeTabuleiro(tabuleiro) 
                 return vitoria_ou_empate
-            else:
-                return jogo(tabuleiro, simboloHumano, simboloComputador, 1, i+1), tabuleiro
             
         elif primeiroJogador == 1:
             jogada = jogadaComputador(tabuleiro, simboloComputador)
             tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloComputador)
 
-            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloComputador)
+            vitoria_ou_empate = venceuOuEmpatou(tabuleiro, simboloComputador) 
             if vitoria_ou_empate:
                 limpaTela()
-                imprimeTabuleiro(tabuleiro)
+                imprimeTabuleiro(tabuleiro) 
                 return vitoria_ou_empate
-            else:
-                return jogo(tabuleiro, simboloHumano, simboloComputador, 0, i+1)
+
+        return jogo(tabuleiro, simboloHumano, simboloComputador, (primeiroJogador+1)%2, i+1)
 
 def desejaContinuar():
     """
