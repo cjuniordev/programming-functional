@@ -274,7 +274,18 @@ def jogadaComputador(tabuleiro, simboloComputador):
     Posição (entre 1 e 9) da jogada do computador
 
     Estratégia:
-    Explique aqui, de forma resumida, a sua estratégia usada para o computador vencer o jogador
+    A estratégia é baseada em procurar sempre as pontas, verificar se é possível ganhar ou perder e ir bloqueando.
+    Sempre que o tabuleiro está vazio, o computador joga uma das 4 pontas([1, 3, 7, 9]).
+    Se o jogo tiver acabado de começar, e o oponente jogou nas pontas, então ele busca jogar nas laterais para bloquear.
+    Depois disso, verifica se é possível vencer em um único lance, se for possível, joga este lance.
+    Após, verifica se é possível que o oponente vença em um único lance, se for possível, bloquea a posição.
+    Se nada disso ocorrer, o computador segue sua estratégia:
+    - verifica se é possível jogar nas pontas
+    - tenta jogar na ponta oposta ao seu lance, para tentar formar diagonais
+    - [FUTURO] -> tentar formar triangulos
+    - se não for possível, tenta jogar em qualquer ponta
+    - se não tiver pontas disponíveis, tenta pegar o centro
+    - se  nao for possível pegar o centro, joga um posição aleatória dentre as disponíveis
     """
     posicoesDesejaveis = [1, 3, 7, 9]
     centro = [5]
