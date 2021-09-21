@@ -14,15 +14,24 @@ def getNome():
     return "CARLOS ROBERTO ROGÉRIO JUNIOR" 
 
 def limpaTela(): 
-	if name == 'nt': 
-		system('cls') 
-	else: 
-		system('clear') 
+    """
+    Limpa o terminal baseado em seu SO
+    """
+    if name == 'nt': 
+        system('cls') 
+    else: 
+        system('clear') 
 
 def quemInicia():
+    """
+    Retorna um número inteiro pseudo aleatório entre 0 e 1 para decidir quem vai começar jogando
+    """
     return random.randint(0, 1)
 
 def escolheSimbolo():
+    """
+    Recebe um simbolo(X, O) escolhido pelo usuário, define o simbolo oposto para o computador e retorna os simbolos
+    """
     simboloHumano = input('Escolha um simbolo para jogar(X ou O): ')
     simboloComputador = ''
     if simboloHumano in 'Xx':
@@ -39,17 +48,27 @@ def escolheSimbolo():
     return simboloHumano, simboloComputador
 
 def posicaoDisponível(tabuleiro, jogada):
+    """
+    Recebe o tabuleiro e uma jogada e verifica se está disponível retornando True ou False
+    """
     if tabuleiro[jogada] == ' ':
         return True
     else:
         return False
 
 def alteraTabuleiro(tabuleiro, jogada, simbolo):
+    """
+    Função responsável por alterar o tabuleiro
+    """
     tabuleiroAuxiliar = tabuleiro[:]
     tabuleiroAuxiliar[jogada] = simbolo
     return tabuleiroAuxiliar
 
 def jogadaHumano(tabuleiro, simboloHumano):
+    """
+    Função responsável por gerenciar a jogada do Humano
+    Recebe a jogada, verifica se esta válida e a retorna
+    """
     jogada = int(input('Digite uma posição: [1-9] '))
     if jogada < 1 or jogada > 9:
         _ = input('Valor inválido, pressione enter para tentar novamente.')
@@ -62,6 +81,9 @@ def jogadaHumano(tabuleiro, simboloHumano):
             return jogadaHumano(tabuleiro, simboloHumano)
 
 def imprimeTabuleiro(tabuleiro):
+    """
+    Imprime o tabuleiro formatado no terminal
+    """
     print(f'{tabuleiro[7]} | {tabuleiro[8]} | {tabuleiro[9]}')
     print('--+---+--')
     print(f'{tabuleiro[4]} | {tabuleiro[5]} | {tabuleiro[6]}')
@@ -69,6 +91,9 @@ def imprimeTabuleiro(tabuleiro):
     print(f'{tabuleiro[1]} | {tabuleiro[2]} | {tabuleiro[3]}')
 
 def tabuleiroVazio(tabuleiro, i=0):
+    """
+    Verifica se o tabuleiro está vazio e retorna True ou False
+    """
     if i < len(tabuleiro):
         if tabuleiro[i] == ' ':
             return tabuleiroVazio(tabuleiro, i+1)
@@ -78,9 +103,15 @@ def tabuleiroVazio(tabuleiro, i=0):
         return True
 
 def vitoria(tabuleiro, simbolo):
-    ## horizontais: 123, 456, 789
-    ## verticais: 147, 258, 369
-    ## diagonais: 357, 159
+    """
+    Funcção responsável por verificar se houve vitória
+    Verifica todas possibilidades de vencer
+        --> Horizontais: 123, 456, 789
+        --> Verticais: 147, 258, 369
+        --> Diagonais: 357, 159
+    Retorna True se tiver vitória e false, caso contrário
+    """
+    
     if tabuleiro[1] == tabuleiro[2] == tabuleiro[3] == simbolo:
         return True
     elif tabuleiro[4] == tabuleiro[5] == tabuleiro[6] == simbolo:
@@ -101,6 +132,11 @@ def vitoria(tabuleiro, simbolo):
         return False
 
 def empate(tabuleiro, vitoria):
+    """
+    Verifica se houve empate
+    Se não houve vitória e todas as casas estão ocupadas, então houve um empate
+    Retorna True se tiver Empate e false, caso contrário
+    """
     if vitoria:
         return False
     else:
@@ -111,6 +147,9 @@ def empate(tabuleiro, vitoria):
             return False
 
 def fimDeJogo(resultado, simboloHumano, simboloComputador):
+    """
+    Imprime mensagem de fim de jogo ao usuário, mostrando o resultado da partida
+    """
     if resultado == simboloHumano:
         print('\n--> Humano venceu!\n')
     elif resultado == simboloComputador:
@@ -120,16 +159,10 @@ def fimDeJogo(resultado, simboloHumano, simboloComputador):
 
     _ = input('Pressione enter para continuar.')
 
-def jogadasPreferenciais(posicoesDisponiveis, posicoesDesejaveis, J=[], i=0):
-    if i < len(posicoesDisponiveis):
-        if posicoesDisponiveis[i] in posicoesDesejaveis:
-            return jogadasPreferenciais(posicoesDisponiveis, posicoesDesejaveis, J+[posicoesDisponiveis[i]], i+1)
-        else:
-            return jogadasPreferenciais(posicoesDisponiveis, posicoesDesejaveis, J, i+1)
-    else:
-        return J
-
 def pegaJogadasDisponiveis(tabuleiro, J=[], i=1):
+    """
+    Recebe o tabuleiro e retorna todas casas disponíveis para jogar
+    """
     if i < len(tabuleiro):
         if tabuleiro[i] == ' ':
             return pegaJogadasDisponiveis(tabuleiro, J+[i], i+1)
@@ -138,8 +171,23 @@ def pegaJogadasDisponiveis(tabuleiro, J=[], i=1):
     else:
         return J
 
+def jogadasPreferenciais(posicoesDisponiveis, posicoesDesejaveis, J=[], i=0):
+    """
+    Função recursiva que recebe as posições disponíveis na tabuleiro e as desejaveis e retorna as posições desejáveis que estão disponíveis
+    """
+    if i < len(posicoesDisponiveis):
+        if posicoesDisponiveis[i] in posicoesDesejaveis:
+            return jogadasPreferenciais(posicoesDisponiveis, posicoesDesejaveis, J+[posicoesDisponiveis[i]], i+1)
+        else:
+            return jogadasPreferenciais(posicoesDisponiveis, posicoesDesejaveis, J, i+1)
+    else:
+        return J
+
 def verificaPossivelVitoria(tabuleiro, posicoesDisponiveis, simbolo, copiaTabuleiro=[], i=0):
-    # fazer recursao q verifica todos espaços vazios, gera copia do tabuleiro, e tenta verificar se alguma gera vitoria
+    """
+    Verifica se é possível vencer em um único lance.
+    Essa função faz uma cópia do tabuleiro, simula todos os lances possíveis e verifica se alguma gera vitória
+    """
     if i == 0:
         return verificaPossivelVitoria(tabuleiro, posicoesDisponiveis, simbolo, tabuleiro[:], i+1)
     elif i <= len(posicoesDisponiveis):
@@ -153,6 +201,10 @@ def verificaPossivelVitoria(tabuleiro, posicoesDisponiveis, simbolo, copiaTabule
         return None
 
 def verificaPossivelDerrota(tabuleiro, posicoesDisponiveis, simbolo, copiaTabuleiro=[], i=0):
+    """
+    Verifica se é possível perder em um único lance.
+    Essa função faz uma cópia do tabuleiro, simula todos os lances possíveis e verifica se alguma gera derrota
+    """
     if i == 0:
         simbolo = 'X' if simbolo == 'O' else 'O'
         return verificaPossivelDerrota(tabuleiro, posicoesDisponiveis, simbolo, tabuleiro[:], i+1)
@@ -166,19 +218,25 @@ def verificaPossivelDerrota(tabuleiro, posicoesDisponiveis, simbolo, copiaTabule
     else:
         return None
 
-def jogaDiagonalOposta(tabuleiro, simboloComputador):
-    if tabuleiro[1] == simboloComputador and tabuleiro[9] == ' ':
+def jogaDiagonalOposta(tabuleiro, simbolo):
+    """
+    Essa função busca jogar sempre a ponta oposta do simbolo
+    """
+    if tabuleiro[1] == simbolo and tabuleiro[9] == ' ':
         return 9
-    elif tabuleiro[9] == simboloComputador and tabuleiro[1] == ' ':
+    elif tabuleiro[9] == simbolo and tabuleiro[1] == ' ':
         return 1
-    elif tabuleiro[3] == simboloComputador and tabuleiro[7] == ' ':
+    elif tabuleiro[3] == simbolo and tabuleiro[7] == ' ':
         return 7
-    elif tabuleiro[7] == simboloComputador and tabuleiro[3] == ' ':
+    elif tabuleiro[7] == simbolo and tabuleiro[3] == ' ':
         return 3
     else:
         return None
 
 def quantosLances(tabuleiro, lances=0, i=0):
+    """
+    Verifica e retorna quantos lances foram jogados na partida
+    """
     if i < len(tabuleiro):
         if tabuleiro[i] != ' ':
             return quantosLances(tabuleiro, lances+1, i+1)
@@ -188,6 +246,9 @@ def quantosLances(tabuleiro, lances=0, i=0):
         return lances
 
 def jogouPonta(tabuleiro, jogou=False, pontas=[1, 3, 7, 9], i=0):
+    """
+    Verifica se alguem jogou nas pontas
+    """
     if i < len(tabuleiro):
         if tabuleiro[i] != ' ':
             if i in pontas:
@@ -250,16 +311,19 @@ def jogadaComputador(tabuleiro, simboloComputador):
                 return random.choice(disponiveis)
 
 def venceuOuEmpatou(tabuleiro, simbolo):
+    """
+    Verifica se alguém venceu ou empatou usando as funções 'empate' e 'vitoria'
+    """
     venceu = vitoria(tabuleiro, simbolo)
-    print(f'Venceu? {venceu}.')
-    print(f'Simbolo: {simbolo}')
     if venceu:
         return simbolo
     elif empate(tabuleiro, venceu):
-        print('Empatou')
         return ' '
 
 def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
+    """
+    Função responsável por controlar todo os sistema de alternancia dos jogadores indicado no fluxograma
+    """
     if i < 9:
         if primeiroJogador == 0:
             limpaTela()
@@ -288,6 +352,9 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
                 return jogo(tabuleiro, simboloHumano, simboloComputador, 0, i+1)
 
 def desejaContinuar():
+    """
+    Verifica se o jogador deseja continuar
+    """
     limpaTela()
     continuar = input('Deseja continuar jogando? (s/n)')
     if continuar in 'Ss':
@@ -299,6 +366,9 @@ def desejaContinuar():
         return desejaContinuar()
 
 def main():
+    """
+    Função raiz de todo o código, inicia variáveis e chama as funções necessárias para se iniciar a partida
+    """
     #Você pode, se quiser, comentar os dois prints abaixo:
     #print(getNome())   
     #print(getMatricula())
