@@ -245,14 +245,14 @@ def quantosLances(tabuleiro, lances=0, i=0):
     else:
         return lances
 
-def jogouPonta(tabuleiro, jogou=False, pontas=[1, 3, 7, 9], i=0):
+def jogouPonta(tabuleiro, jogou=0, pontas=[1, 3, 7, 9], i=0):
     """
-    Verifica se alguem jogou nas pontas
+    Verifica se alguem jogou nas pontas e retorna a quantidade de pontas jogadas
     """
     if i < len(tabuleiro):
         if tabuleiro[i] != ' ':
             if i in pontas:
-                return jogouPonta(tabuleiro, True, pontas, i+1)
+                return jogouPonta(tabuleiro, jogou+1, pontas, i+1)
             else:
                 return jogouPonta(tabuleiro, jogou, pontas, i+1)
         else:
@@ -285,6 +285,9 @@ def jogadaComputador(tabuleiro, simboloComputador):
     - se não for possível, tenta jogar em qualquer ponta
     - se não tiver pontas disponíveis, tenta pegar o centro
     - se  nao for possível pegar o centro, joga um posição aleatória dentre as disponíveis
+    E tambem tem alguns casos defensivos:
+    - se o oponente joga ponta no primeiro lance, entao joga na lateral
+    - se no segundo round o oponente joga outra ponta, entao joga no centro
     """
     posicoesDesejaveis = [1, 3, 7, 9]
     centro = [5]
@@ -292,9 +295,12 @@ def jogadaComputador(tabuleiro, simboloComputador):
     if tabuleiroVazio(tabuleiro):
         return random.choice(posicoesDesejaveis)
 
-    if quantosLances(tabuleiro) == 1 and jogouPonta(tabuleiro):
+    if quantosLances(tabuleiro) == 1 and jogouPonta(tabuleiro) == 1:
         return random.choice(laterais)
-    
+
+    if quantosLances(tabuleiro) == 3 and jogouPonta(tabuleiro) == 2:
+        return centro[0]
+
     disponiveis = pegaJogadasDisponiveis(tabuleiro)
 
     vitoriaEmUm = verificaPossivelVitoria(tabuleiro, disponiveis, simboloComputador)
