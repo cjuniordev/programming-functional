@@ -295,12 +295,6 @@ def jogadaComputador(tabuleiro, simboloComputador):
     if tabuleiroVazio(tabuleiro):
         return random.choice(posicoesDesejaveis)
 
-    if quantosLances(tabuleiro) == 1 and jogouPonta(tabuleiro) == 1:
-        return random.choice(laterais)
-
-    if quantosLances(tabuleiro) == 3 and jogouPonta(tabuleiro) == 2:
-        return centro[0]
-
     disponiveis = pegaJogadasDisponiveis(tabuleiro)
 
     vitoriaEmUm = verificaPossivelVitoria(tabuleiro, disponiveis, simboloComputador)
@@ -310,6 +304,12 @@ def jogadaComputador(tabuleiro, simboloComputador):
     elif derrotaEmUm != None:
         return derrotaEmUm
     else:
+        if quantosLances(tabuleiro) == 1 and jogouPonta(tabuleiro) == 1:
+            return centro[0]
+
+        if quantosLances(tabuleiro) == 3 and jogouPonta(tabuleiro) == 2:
+            return random.choice(laterais)
+
         preferencias = jogadasPreferenciais(disponiveis, posicoesDesejaveis)
 
         diagonalOposta = jogaDiagonalOposta(tabuleiro, simboloComputador)
