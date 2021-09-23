@@ -260,6 +260,23 @@ def jogouPonta(tabuleiro, jogou=0, pontas=[1, 3, 7, 9], i=0):
     else:
         return jogou
 
+def minhaJogada(tabuleiro, posicao, simbolo):
+  if tabuleiro[posicao] == simbolo:
+    return True
+  else:
+    return False
+
+def verificaVitoriaEmDois(tabuleiro, simbolo, latDisponiveis, disponiveis, auxTab=[], i=0):
+  if i == 0:
+    return verificaVitoriaEmDois(tabuleiro, simbolo, latDisponiveis, disponiveis, tabuleiro[:], i+1)
+  if i-1 < len(latDisponiveis):
+    auxTab[latDisponiveis[i-1]] = simbolo
+    if verificaPossivelVitoria(auxTab, disponiveis, simbolo):
+      return latDisponiveis[i-1]
+    return verificaVitoriaEmDois(tabuleiro, simbolo, latDisponiveis, disponiveis, tabuleiro[:], i+1)
+  else:
+    return None
+
 def jogadaComputador(tabuleiro, simboloComputador):
     """
     Recebe o tabuleiro e o simbolo (X ou O) do computador e determina onde o computador deve jogar
@@ -289,6 +306,7 @@ def jogadaComputador(tabuleiro, simboloComputador):
     - se o oponente joga ponta no primeiro lance, entao joga na lateral
     - se no segundo round o oponente joga outra ponta, entao joga no centro
     """
+    ## quando joga quina depois lateral, jogar outra lateral
     posicoesDesejaveis = [1, 3, 7, 9]
     centro = [5]
     laterais = [2, 4, 6, 8]
@@ -307,8 +325,11 @@ def jogadaComputador(tabuleiro, simboloComputador):
         if quantosLances(tabuleiro) == 1 and jogouPonta(tabuleiro) == 1:
             return centro[0]
 
-        if quantosLances(tabuleiro) == 3 and jogouPonta(tabuleiro) == 2:
-            return random.choice(laterais)
+        lateraisDisponiveis = jogadasPreferenciais(disponiveis, laterais)
+        if minhaJogada(tabuleiro, centro[0], simboloComputador):
+            vitoriaEmDois = verificaVitoriaEmDois(tabuleiro, simboloComputador, lateraisDisponiveis, disponiveis)
+            if vitoriaEmDois:
+                return vitoriaEmDois
 
         preferencias = jogadasPreferenciais(disponiveis, posicoesDesejaveis)
 
