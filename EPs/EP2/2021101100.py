@@ -419,6 +419,10 @@ def main():
 
     simboloHumano, simboloComputador = escolheSimbolo()
     primeiroJogador = quemInicia()
+    if primeiroJogador == 0:
+        print('Voce começa!')
+    else:
+        print('Computador começa!')
 
     resultado = jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador)
     fimDeJogo(resultado, simboloHumano, simboloComputador)
