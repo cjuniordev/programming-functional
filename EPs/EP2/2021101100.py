@@ -261,21 +261,28 @@ def jogouPonta(tabuleiro, jogou=0, pontas=[1, 3, 7, 9], i=0):
         return jogou
 
 def minhaJogada(tabuleiro, posicao, simbolo):
-  if tabuleiro[posicao] == simbolo:
-    return True
-  else:
-    return False
+    """
+    Verifica se o simbolo ja jogou na posicao e retorn True ou False
+    """
+    if tabuleiro[posicao] == simbolo:
+        return True
+    else:
+        return False
 
 def verificaVitoriaEmDois(tabuleiro, simbolo, latDisponiveis, disponiveis, auxTab=[], i=0):
-  if i == 0:
-    return verificaVitoriaEmDois(tabuleiro, simbolo, latDisponiveis, disponiveis, tabuleiro[:], i+1)
-  if i-1 < len(latDisponiveis):
-    auxTab[latDisponiveis[i-1]] = simbolo
-    if verificaPossivelVitoria(auxTab, disponiveis, simbolo):
-      return latDisponiveis[i-1]
-    return verificaVitoriaEmDois(tabuleiro, simbolo, latDisponiveis, disponiveis, tabuleiro[:], i+1)
-  else:
-    return None
+    """
+    Essa função simula jogada em uma lateral e verifica se com essa jogada, é possível vencer em um lance
+    Se for possível, retorna a posição, se nao for possível, retorna NoneType
+    """
+    if i == 0:
+        return verificaVitoriaEmDois(tabuleiro, simbolo, latDisponiveis, disponiveis, tabuleiro[:], i+1)
+    if i-1 < len(latDisponiveis):
+        auxTab[latDisponiveis[i-1]] = simbolo
+        if verificaPossivelVitoria(auxTab, disponiveis, simbolo):
+            return latDisponiveis[i-1]
+        return verificaVitoriaEmDois(tabuleiro, simbolo, latDisponiveis, disponiveis, tabuleiro[:], i+1)
+    else:
+        return None
 
 def jogadaComputador(tabuleiro, simboloComputador):
     """
@@ -306,10 +313,10 @@ def jogadaComputador(tabuleiro, simboloComputador):
     - se o oponente joga ponta no primeiro lance, entao joga na lateral
     - se no segundo round o oponente joga outra ponta, entao joga no centro
     """
-    ## quando joga quina depois lateral, jogar outra lateral
     posicoesDesejaveis = [1, 3, 7, 9]
     centro = [5]
     laterais = [2, 4, 6, 8]
+
     if tabuleiroVazio(tabuleiro):
         return random.choice(posicoesDesejaveis)
 
