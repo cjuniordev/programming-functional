@@ -367,30 +367,30 @@ def jogo(tabuleiro, simboloHumano, simboloComputador, primeiroJogador, i=0):
     """
     Função responsável por controlar todo os sistema de alternancia dos jogadores indicado no fluxograma
     """
-    if i < 9:
-        if primeiroJogador == 0:
+    #if i < 9:
+    if primeiroJogador == 0:
+        limpaTela()
+        imprimeTabuleiro(tabuleiro)
+        jogada = jogadaHumano(tabuleiro, simboloHumano)
+        tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloHumano)
+
+        vitoriaOuEmpate = venceuOuEmpatou(tabuleiro, simboloHumano) 
+        if vitoriaOuEmpate:
             limpaTela()
-            imprimeTabuleiro(tabuleiro)
-            jogada = jogadaHumano(tabuleiro, simboloHumano)
-            tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloHumano)
+            imprimeTabuleiro(tabuleiro) 
+            return vitoriaOuEmpate
+        
+    elif primeiroJogador == 1:
+        jogada = jogadaComputador(tabuleiro, simboloComputador)
+        tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloComputador)
 
-            vitoriaOuEmpate = venceuOuEmpatou(tabuleiro, simboloHumano) 
-            if vitoriaOuEmpate:
-                limpaTela()
-                imprimeTabuleiro(tabuleiro) 
-                return vitoriaOuEmpate
-            
-        elif primeiroJogador == 1:
-            jogada = jogadaComputador(tabuleiro, simboloComputador)
-            tabuleiro = alteraTabuleiro(tabuleiro, jogada, simboloComputador)
+        vitoriaOuEmpate = venceuOuEmpatou(tabuleiro, simboloComputador) 
+        if vitoriaOuEmpate:
+            limpaTela()
+            imprimeTabuleiro(tabuleiro) 
+            return vitoriaOuEmpate
 
-            vitoriaOuEmpate = venceuOuEmpatou(tabuleiro, simboloComputador) 
-            if vitoriaOuEmpate:
-                limpaTela()
-                imprimeTabuleiro(tabuleiro) 
-                return vitoriaOuEmpate
-
-        return jogo(tabuleiro, simboloHumano, simboloComputador, (primeiroJogador+1)%2, i+1)
+    return jogo(tabuleiro, simboloHumano, simboloComputador, (primeiroJogador+1)%2, i+1)
 
 def desejaContinuar():
     """
